@@ -108,3 +108,4 @@ def my_spawn(argv, master_read=pty._read, stdin_read=pty._read):
     return os.waitpid(pid, 0)[1]
 
 my_spawn("vi")
+print("Done")
