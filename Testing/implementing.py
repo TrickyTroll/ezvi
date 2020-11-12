@@ -32,7 +32,16 @@ def ez_spawn(argv, master_read = _read, stdin_read = _read):
     except tty.error:
         # Did not work, no need to restore.
         restore = 0
+    try:
+        ez_copy(master_fd, "toto", master_read, stdin_read)
+    except OSError:
+        if restore:
+            # Discard queued data and change mode to original
+            tty.tcsetattr(STDIN_FILENO, tty.TCSAFLUSH, mode)
+    os.close(master_fd)
+    # wait for completion and return exit status
+    return os.waitpid(pid, 0)[1]
 
-def ez_copy(master_fd, master_read = _read, stdin_read = _read):
+def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
     fds = [master_fd, STDIN_FILENO]
-    return None
+    to_write = list(to_write)
