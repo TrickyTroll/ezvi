@@ -48,10 +48,13 @@ def my_copy_2(master_fd, master_read=pty._read, stdin_read=pty._read):
             pty master -> standard output   (master_read)
             standard input -> pty master    (stdin_read)"""
     fds = [master_fd, STDIN_FILENO]
+
     my_data = ["i"]
     for char in list("This is a test!"):
         my_data.append(char)
 
+    os.write(STDOUT_FILENO, "i".encode())
+    print("toto")
     while True:
         for char in my_data:
             rfds, wfds, xfds = select(fds, [], [])
@@ -64,9 +67,9 @@ def my_copy_2(master_fd, master_read=pty._read, stdin_read=pty._read):
 
             if STDIN_FILENO in rfds:
                 data = char.encode()
-                time.sleep(1)
+                time.sleep(.1)
                 os.write(master_fd, data)
-                time.sleep(1)
+                time.sleep(.1)
 
         rfds, wfds, xfds = select(fds, [], [])
         if master_fd in rfds:
