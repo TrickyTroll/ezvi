@@ -2,6 +2,7 @@
 
 import time
 import os
+import pty
 import tty
 import sys
 from select import select
@@ -44,8 +45,26 @@ def ez_spawn(argv, master_read = _read, stdin_read = _read):
 
 def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
     fds = [master_fd, STDIN_FILENO]
-    to_write = list(to_write).insert(0, "i")
-    for char in to_write:
-        data = char.encode()
-        time.sleep(.1)
-        os.write(master_fd, data)
+    to_write = list(to_write)
+    to_write.insert(0, "i")
+    while True:
+        for char in to_write:
+            rfds, wfds, xfds = select(fds, [], [])
+            if master_fd in rfds:
+                # This is required to see the program running
+                data = master_read(master_fd)
+                if not data:
+                    fds.remove(master_fd)
+                else:
+                    # Printing the program
+                    os.write(STDOUT_FILENO, data)
+
+            if STDIN_FILENO in rfds:
+                data = char.encode()
+                time.sleep(.1)
+                os.write(master_fd, data)
+#        break
+    return None
+
+ez_spawn("vi")
+print("Done")
