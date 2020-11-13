@@ -49,7 +49,7 @@ def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
     to_write.insert(0, "i")
     while True:
         for char in to_write:
-            rfds, wfds, xfds = select(fds, [], [])
+            rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
             if master_fd in rfds:
                 # This is required to see the program running
                 data = master_read(master_fd)
@@ -59,11 +59,11 @@ def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
                     # Printing the program
                     os.write(STDOUT_FILENO, data)
 
-            if STDIN_FILENO in rfds:
+            if STDIN_FILENO in wfds:
                 data = char.encode()
                 time.sleep(.1)
                 os.write(master_fd, data)
-#        break
+        break
     return None
 
 ez_spawn("vi")
