@@ -63,7 +63,7 @@ def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
                 data = char.encode()
                 time.sleep(.1)
                 os.write(master_fd, data)
-        break
+#        break
     return None
 
 ez_spawn("vi")
