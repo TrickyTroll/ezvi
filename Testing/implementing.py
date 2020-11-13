@@ -44,4 +44,8 @@ def ez_spawn(argv, master_read = _read, stdin_read = _read):
 
 def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
     fds = [master_fd, STDIN_FILENO]
-    to_write = list(to_write)
+    to_write = list(to_write).insert(0, "i")
+    for char in to_write:
+        data = char.encode()
+        time.sleep(.1)
+        os.write(master_fd, data)

@@ -79,6 +79,7 @@ def my_copy_2(master_fd, master_read=pty._read, stdin_read=pty._read):
             else:
                 os.write(STDOUT_FILENO, data)
 
+        # Should try removing this part to make it stop waiting
         if STDIN_FILENO in rfds:
             data = stdin_read(STDIN_FILENO)
             if not data:
