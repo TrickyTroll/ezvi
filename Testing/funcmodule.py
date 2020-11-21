@@ -9,45 +9,42 @@ STDIN_FILENO = 0
 STDOUT_FILENO = 1
 CHILD = 0
 
-# Need to remove this later. This is what the instructions should look like.
-writing = {"insert":"i", "text":"foooo", "newline":"\n", "text":"bar", "escape":chr(27)}
-
 def ez_encode(to_write):
-	"""
-	Encodes a `dict` for which every value is a string. The strings
-	are encoded per character and the returned `dict` contains lists
-	of encoded chars.
-	
-	to_write (dict): `dict` of strings that will be encoded. The strings
-	also already be encoded. In such cases, they will be returned
-	as-is.
-	
-	returns (dict): `dict` that contains the encoded strings as lists
-	of encoded chars.
-	"""
-	to_return = to_write
-	for key, values in to_write:
-		if type(value) != bytes:
-			try:
-				chars = list(value)
-				to_return[key] = [item.encode() for item in chars]
-			except AttributeError:
-				raise("Instructions must be of type string.")
-		else:
-			to_return[key] = [value]
-	return to_return
-	
+    """
+    Encodes a `dict` for which every value is a string. The strings
+    are encoded per character and the returned `dict` contains lists
+    of encoded chars.
+    
+    to_write (dict): `dict` of strings that will be encoded. The strings
+    also already be encoded. In such cases, they will be returned
+    as-is.
+    
+    returns (dict): `dict` that contains the encoded strings as lists
+    of encoded chars.
+    """
+    to_return = to_write
+    for key, value in to_write.items():
+        if type(value) != bytes:
+            try:
+                chars = list(value)
+                to_return[key] = [item.encode() for item in chars]
+            except AttributeError:
+                raise("Instructions must be of type string.")
+        else:
+            to_return[key] = [value]
+    return to_return
+    
 def ez_read(fd):
-	"""
-	Standard read function.
-	
-	fd(int): File descriptor.
-	
-	returns(byte string): Up to 1024 bytes that have been read from `fd`.
-	"""
+    """
+    Standard read function.
+    
+    fd(int): File descriptor.
+    
+    returns(byte string): Up to 1024 bytes that have been read from `fd`.
+    """
     return os.read(fd, 1024)
 
-def ez_spawn(argv, master_read = ez_read, stdin_read = ez_read, instructions):
+def ez_spawn(argv, instructions, masterez_read = ez_read, stdinez_read = ez_read):
     """
     To spawn the process. Heavily inspired from Python's `pty`
     module. `ez_spawn()` should only be used once per file that
@@ -57,13 +54,14 @@ def ez_spawn(argv, master_read = ez_read, stdin_read = ez_read, instructions):
     
     argv (tuple): First element should be the program to run.
     The other elements are the arguments passed to the program.
-    master_read (function): The function that will be used to read
-    info from the master's file descriptor.
-    stdin_read (function): The function that will be used to read
-    from STDIN (if the user wants to write to the program).
     instructions (dict): Contains the insctuctions that will be
     passed to VI and the text that should be written. The options
     available will soon be documented.
+    masterez_read (function): The function that will be used to read
+    info from the master's file descriptor.
+    stdinez_read (function): The function that will be used to read
+    from STDIN (if the user wants to write to the program).
+    
     
     returns (tuple): A tuple that contains the process id and exit
     status.
@@ -83,11 +81,13 @@ def ez_spawn(argv, master_read = ez_read, stdin_read = ez_read, instructions):
         # Did not work, no need to restore.
         restore = 0
     # This is where the fun begins.
+    # Encoding the instructions.
+    instructions = ez_encode(instructions)
     try:
-		for key, values in instructions:
-		# For now my program isn't being too wise about what to
-		# do depending on the type of instructions.
-        	ez_copy(master_fd, values, master_read, stdin_read)
+        for key, values in instructions.items():
+        # For now my program isn't being too wise about what to
+        # do depending on the type of instructions.
+            ez_write(master_fd, values, masterez_read, stdinez_read)
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
@@ -96,29 +96,38 @@ def ez_spawn(argv, master_read = ez_read, stdin_read = ez_read, instructions):
     # wait for completion and return exit status
     return os.waitpid(pid, 0)[1]
 
-def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
+def ez_write(master_fd, to_write, masterez_read = ez_read, stdinez_read = ez_read):
+    """
+    Writes every char in `to_write` to `master_fd`.
+    
+    master_fd (int): Master's file descriptor.
+    to_write (list of bytes): List of encoded chars that will be written
+    to `master_fd`.
+    masterez_read (function): The function that will be used to read
+    info from the master's file descriptor.
+    stdinez_read (function): The function that will be used to read
+    from STDIN (if the user wants to write to the program).
+    
+    returns (None): None
+    """
+    
     fds = [master_fd, STDIN_FILENO]
-    to_write = list(to_write)
-    for i in range(len(to_write)):
-        if index > max:
-            break
-        for char in to_write:
-            rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
-            if master_fd in rfds:
-                # This is required to see the program running
-                data = master_read(master_fd)
-                if not data:
-                    fds.remove(master_fd)
-                else:
-                    # Printing the program
-                    os.write(STDOUT_FILENO, data)
+    while True:
+		for item in to_write:
+			rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
+			if master_fd in rfds:
+				# This is required to see the program running.
+				data = masterez_read(master_fd)
+				if not data:
+					fds.remove(master_fd)
+				else:
+					# Printing the program
+					os.write(STDOUT_FILENO, data)
 
-            if STDIN_FILENO in wfds:
-                data = char.encode()
-                time.sleep(.1)
-                os.write(master_fd, data)
-        index += 1
+			if STDIN_FILENO in wfds:
+				data = item # The item should already be encoded.
+				# This should be randomized to simulate typing.
+				time.sleep(.1)
+				os.write(master_fd, data)
     return None
     
-ez_spawn("vi")
-print("Done")
