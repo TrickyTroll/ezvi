@@ -9,28 +9,35 @@ STDIN_FILENO = 0
 STDOUT_FILENO = 1
 CHILD = 0
 
-# Need to remove this later
-writing = ["i", "foooo", "\n", "bar", chr(27)]
+# Need to remove this later. This is what the instructions should look like.
+writing = {"insert":"i", "text":"foooo", "newline":"\n", "text":"bar", "escape":chr(27)}
 
-def encode(to_write):
+def ez_encode(to_write):
 	"""
-	Encodes a list of strings.
+	Encodes a `dict` for which every value is a string. The strings
+	are encoded per character and the returned `dict` contains lists
+	of encoded chars.
 	
-	to_write(list): List of strings that will be encoded. The strings
+	to_write (dict): `dict` of strings that will be encoded. The strings
 	also already be encoded. In such cases, they will be returned
 	as-is.
 	
-	returns(list): List of encoded strings.
+	returns (dict): `dict` that contains the encoded strings as lists
+	of encoded chars.
 	"""
-	to_return = []
-	for item in to_write:
-		if type(item) != bytes:
-			to_return.append(item.encode())
+	to_return = to_write
+	for key, values in to_write:
+		if type(value) != bytes:
+			try:
+				chars = list(value)
+				to_return[key] = [item.encode() for item in chars]
+			except AttributeError:
+				raise("Instructions must be of type string.")
 		else:
-			to_return.append(item)
+			to_return[key] = [value]
 	return to_return
 	
-def _read(fd):
+def ez_read(fd):
 	"""
 	Standard read function.
 	
@@ -40,7 +47,7 @@ def _read(fd):
 	"""
     return os.read(fd, 1024)
 
-def ez_spawn(argv, master_read = _read, stdin_read = _read):
+def ez_spawn(argv, master_read = ez_read, stdin_read = ez_read, instructions):
     """
     To spawn the process. Heavily inspired from Python's `pty`
     module. `ez_spawn()` should only be used once per file that
@@ -54,6 +61,9 @@ def ez_spawn(argv, master_read = _read, stdin_read = _read):
     info from the master's file descriptor.
     stdin_read (function): The function that will be used to read
     from STDIN (if the user wants to write to the program).
+    instructions (dict): Contains the insctuctions that will be
+    passed to VI and the text that should be written. The options
+    available will soon be documented.
     
     returns (tuple): A tuple that contains the process id and exit
     status.
@@ -72,11 +82,15 @@ def ez_spawn(argv, master_read = _read, stdin_read = _read):
     except tty.error:
         # Did not work, no need to restore.
         restore = 0
+    # This is where the fun begins.
     try:
-        ez_copy(master_fd, "toto", master_read, stdin_read)
+		for key, values in instructions:
+		# For now my program isn't being too wise about what to
+		# do depending on the type of instructions.
+        	ez_copy(master_fd, values, master_read, stdin_read)
     except OSError:
         if restore:
-            # Discard queued data and change mode to original
+            # Discard queued data and change mode to original.
             tty.tcsetattr(STDIN_FILENO, tty.TCSAFLUSH, mode)
     os.close(master_fd)
     # wait for completion and return exit status
@@ -85,10 +99,7 @@ def ez_spawn(argv, master_read = _read, stdin_read = _read):
 def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
     fds = [master_fd, STDIN_FILENO]
     to_write = list(to_write)
-    to_write.insert(0, "i")
-    index = 0
-    max = len(to_write)
-    while True:
+    for i in range(len(to_write)):
         if index > max:
             break
         for char in to_write:
