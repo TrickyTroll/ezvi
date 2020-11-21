@@ -25,17 +25,38 @@ def encode(to_write):
 	to_return = []
 	for item in to_write:
 		if type(item) != bytes:
-			to_return.extend(item.encode())
+			to_return.append(item.encode())
 		else:
-			to_return.extend(item)
+			to_return.append(item)
 	return to_return
 	
 def _read(fd):
+	"""
+	Standard read function.
+	
+	fd(int): File descriptor.
+	
+	returns(byte string): Up to 1024 bytes that have been read from `fd`.
+	"""
     return os.read(fd, 1024)
 
 def ez_spawn(argv, master_read = _read, stdin_read = _read):
     """
-    To spawn the process.
+    To spawn the process. Heavily inspired from Python's `pty`
+    module. `ez_spawn()` should only be used once per file that
+    needs to be edited. This function can write a whole text file
+    following the instructions dictionary and executing those
+    instructions using `ez_copy()`.
+    
+    argv (tuple): First element should be the program to run.
+    The other elements are the arguments passed to the program.
+    master_read (function): The function that will be used to read
+    info from the master's file descriptor.
+    stdin_read (function): The function that will be used to read
+    from STDIN (if the user wants to write to the program).
+    
+    returns (tuple): A tuple that contains the process id and exit
+    status.
     """
     if type(argv) == str:
         argv = (argv,)
@@ -87,6 +108,6 @@ def ez_copy(master_fd, to_write, master_read = _read, stdin_read = _read):
                 os.write(master_fd, data)
         index += 1
     return None
-
+    
 ez_spawn("vi")
 print("Done")
