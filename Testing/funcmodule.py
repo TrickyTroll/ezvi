@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import time
 import os
 import pty
@@ -9,9 +7,29 @@ from select import select
 
 STDIN_FILENO = 0
 STDOUT_FILENO = 1
-
 CHILD = 0
 
+# Need to remove this later
+writing = ["i", "foooo", "\n", "bar", chr(27)]
+
+def encode(to_write):
+	"""
+	Encodes a list of strings.
+	
+	to_write(list): List of strings that will be encoded. The strings
+	also already be encoded. In such cases, they will be returned
+	as-is.
+	
+	returns(list): List of encoded strings.
+	"""
+	to_return = []
+	for item in to_write:
+		if type(item) != bytes:
+			to_return.extend(item.encode())
+		else:
+			to_return.extend(item)
+	return to_return
+	
 def _read(fd):
     return os.read(fd, 1024)
 
