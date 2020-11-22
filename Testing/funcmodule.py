@@ -84,10 +84,10 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     # Encoding the instructions.
     instructions = ez_encode(instructions)
     try:
-        for key, values in instructions.items():
+        for key, value in instructions.items():
         # For now my program isn't being too wise about what to
         # do depending on the type of instructions.
-            ez_write(master_fd, values, master_read, stdin_read)
+            ez_write(master_fd, value, master_read, stdin_read)
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
@@ -112,23 +112,26 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     """
     
     fds = [master_fd, STDIN_FILENO]
-    
     while True:
-		for item in to_write:
-			rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
-			if master_fd in rfds:
-				# This is required to see the program running.
-				data = master_read(master_fd)
-				if not data:
-					fds.remove(master_fd)
-				else:
-					# Printing the program
-					os.write(STDOUT_FILENO, data)
-			# This should always be true.
-			if STDIN_FILENO in wfds:
-				data = item # The item should already be encoded.
-				# This should be randomized to simulate typing.
-				time.sleep(.1)
-				os.write(master_fd, data)
+        rfds, wfds, xfds = select([fds[0]], [fds[0]], [])
+        if master_fd in rfds:
+            # This is required to see the program running.
+            data = master_read(master_fd)
+            if not data:
+                fds.remove(master_fd)
+            else:
+                # Printing the program
+                os.write(STDOUT_FILENO, data)
+        # This should always be true.
+        if STDIN_FILENO in wfds:
+            try:
+                data = to_write.pop(0) # The item should already be encoded.
+            except IndexError:
+                data = None
+            # This should be randomized to simulate typing.
+            if not data:
+                wfds.remove(STDIN_FILENO)
+            else:
+                time.sleep(.1)
+                os.write(master_fd, data)
     return None
-    
