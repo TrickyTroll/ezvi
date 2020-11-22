@@ -44,7 +44,7 @@ def ez_read(fd):
     """
     return os.read(fd, 1024)
 
-def ez_spawn(argv, instructions, masterez_read = ez_read, stdinez_read = ez_read):
+def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     """
     To spawn the process. Heavily inspired from Python's `pty`
     module. `ez_spawn()` should only be used once per file that
@@ -57,9 +57,9 @@ def ez_spawn(argv, instructions, masterez_read = ez_read, stdinez_read = ez_read
     instructions (dict): Contains the insctuctions that will be
     passed to VI and the text that should be written. The options
     available will soon be documented.
-    masterez_read (function): The function that will be used to read
+    master_read (function): The function that will be used to read
     info from the master's file descriptor.
-    stdinez_read (function): The function that will be used to read
+    stdin_read (function): The function that will be used to read
     from STDIN (if the user wants to write to the program).
     
     
@@ -87,7 +87,7 @@ def ez_spawn(argv, instructions, masterez_read = ez_read, stdinez_read = ez_read
         for key, values in instructions.items():
         # For now my program isn't being too wise about what to
         # do depending on the type of instructions.
-            ez_write(master_fd, values, masterez_read, stdinez_read)
+            ez_write(master_fd, values, master_read, stdin_read)
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
@@ -96,34 +96,35 @@ def ez_spawn(argv, instructions, masterez_read = ez_read, stdinez_read = ez_read
     # wait for completion and return exit status
     return os.waitpid(pid, 0)[1]
 
-def ez_write(master_fd, to_write, masterez_read = ez_read, stdinez_read = ez_read):
+def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     """
     Writes every char in `to_write` to `master_fd`.
     
     master_fd (int): Master's file descriptor.
     to_write (list of bytes): List of encoded chars that will be written
     to `master_fd`.
-    masterez_read (function): The function that will be used to read
+    master_read (function): The function that will be used to read
     info from the master's file descriptor.
-    stdinez_read (function): The function that will be used to read
+    stdin_read (function): The function that will be used to read
     from STDIN (if the user wants to write to the program).
     
     returns (None): None
     """
     
     fds = [master_fd, STDIN_FILENO]
+    
     while True:
 		for item in to_write:
 			rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
 			if master_fd in rfds:
 				# This is required to see the program running.
-				data = masterez_read(master_fd)
+				data = master_read(master_fd)
 				if not data:
 					fds.remove(master_fd)
 				else:
 					# Printing the program
 					os.write(STDOUT_FILENO, data)
-
+			# This should always be true.
 			if STDIN_FILENO in wfds:
 				data = item # The item should already be encoded.
 				# This should be randomized to simulate typing.
