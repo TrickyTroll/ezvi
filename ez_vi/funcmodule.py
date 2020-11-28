@@ -76,7 +76,7 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         mode = tty.tcgetattr(STDIN_FILENO)
         # The next line is required to make sure that you can't type over vi
         # either.
-        tty.setraw(STDIN_FILENO) # disable line buffering
+#         tty.setraw(STDIN_FILENO) # disable line buffering
         # interrupt signals are no longer interpreted
         restore = 1
     except tty.error:
@@ -115,7 +115,7 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     
     fds = [master_fd, STDIN_FILENO]
     while True:
-        rfds, wfds, xfds = select([fds[0]], [fds[0]], [])
+        rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
         if master_fd in rfds:
             # This is required to see the program running.
             data = master_read(master_fd)
@@ -130,11 +130,11 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
                 data = to_write.pop(0) # The item should already be encoded.
             except IndexError:
                 data = None
-            # This should be randomized to simulate typing.
             if not data:
                 wfds.remove(STDIN_FILENO)
                 break
             else:
-                time.sleep(.1)
+                # This should be randomized to simulate typing.
                 os.write(master_fd, data)
+                time.sleep(.5)
     return None
