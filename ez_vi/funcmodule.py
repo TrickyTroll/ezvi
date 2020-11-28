@@ -9,25 +9,25 @@ STDIN_FILENO = 0
 STDOUT_FILENO = 1
 CHILD = 0
 
-def ez_encode(to_write):
+def ez_encode(tw):
     """
     Encodes a `dict` for which every value is a string. The strings
     are encoded per character and the returned `dict` contains lists
     of encoded chars.
     
-    to_write (dict): `dict` of strings that will be encoded. The strings
+    tw (dict): `dict` of strings that will be encoded. The strings
     also already be encoded. In such cases, they will be returned
     as-is.
     
     returns (dict): `dict` that contains the encoded strings as lists
     of encoded chars.
     """
-    to_return = to_write
-    for key, value in to_write.items():
+    to_return = tw.copy()
+    for key, value in to_return.items():
         if type(value) != bytes:
             try:
                 chars = list(value)
-                to_return[key] = [item.encode() for item in chars]
+                to_return[key] = [item.encode('utf-8') for item in chars]
             except AttributeError:
                 raise("Instructions must be of type string.")
         else:
@@ -74,7 +74,9 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         os.execlp(argv[0], *argv)
     try:
         mode = tty.tcgetattr(STDIN_FILENO)
-#        tty.setraw(STDIN_FILENO) # disable line buffering
+        # The next line is required to make sure that you can't type over vi
+        # either.
+        tty.setraw(STDIN_FILENO) # disable line buffering
         # interrupt signals are no longer interpreted
         restore = 1
     except tty.error:
@@ -83,7 +85,6 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     # This is where the fun begins.
     # Encoding the instructions.
     instructions = ez_encode(instructions)
-    print(type(instructions["insert"][0]))
     try:
         for key, value in instructions.items():
         # For now my program isn't being too wise about what to
