@@ -74,7 +74,7 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         os.execlp(argv[0], *argv)
     try:
         mode = tty.tcgetattr(STDIN_FILENO)
-        tty.setraw(STDIN_FILENO) # disable line buffering
+#        tty.setraw(STDIN_FILENO) # disable line buffering
         # interrupt signals are no longer interpreted
         restore = 1
     except tty.error:
@@ -83,6 +83,7 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     # This is where the fun begins.
     # Encoding the instructions.
     instructions = ez_encode(instructions)
+    print(type(instructions["insert"][0]))
     try:
         for key, value in instructions.items():
         # For now my program isn't being too wise about what to
@@ -131,6 +132,7 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
             # This should be randomized to simulate typing.
             if not data:
                 wfds.remove(STDIN_FILENO)
+                break
             else:
                 time.sleep(.1)
                 os.write(master_fd, data)
