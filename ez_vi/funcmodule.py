@@ -66,6 +66,8 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     returns (tuple): A tuple that contains the process id and exit
     status.
     """
+    all_written = []
+    all_written.append(instructions.copy())
     if type(argv) == str:
         argv = (argv,)
     pid, master_fd = pty.fork()
@@ -76,7 +78,7 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         mode = tty.tcgetattr(STDIN_FILENO)
         # The next line is required to make sure that you can't type over vi
         # either.
-#         tty.setraw(STDIN_FILENO) # disable line buffering
+        tty.setraw(STDIN_FILENO) # disable line buffering
         # interrupt signals are no longer interpreted
         restore = 1
     except tty.error:
@@ -84,18 +86,24 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         restore = 0
     # This is where the fun begins.
     # Encoding the instructions.
-    instructions = ez_encode(instructions)
+    encoded = ez_encode(instructions)
     try:
-        for key, value in instructions.items():
+        for key, value in encoded.items():
         # For now my program isn't being too wise about what to
         # do depending on the type of instructions.
-            ez_write(master_fd, value, master_read, stdin_read)
+            all_written.append(ez_write(master_fd, 
+                                        value, 
+                                        master_read, 
+                                        stdin_read))
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
             tty.tcsetattr(STDIN_FILENO, tty.TCSAFLUSH, mode)
+    if restore:
+        tty.tcsetattr(STDIN_FILENO, tty.TCSAFLUSH, mode)
     os.close(master_fd)
     # wait for completion and return exit status
+    print(all_written)
     return os.waitpid(pid, 0)[1]
 
 def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
@@ -103,16 +111,17 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     Writes every char in `to_write` to `master_fd`.
     
     master_fd (int): Master's file descriptor.
-    to_write (list of bytes): List of encoded chars that will be written
-    to `master_fd`.
+    to_write (list of bytes): List of encoded chars that will be 
+    written to `master_fd`.
     master_read (function): The function that will be used to read
     info from the master's file descriptor.
     stdin_read (function): The function that will be used to read
     from STDIN (if the user wants to write to the program).
     
-    returns (None): None
+    returns written(list of bytes): A list of all chars that 
+    have been written.
     """
-    
+    written = []
     fds = [master_fd, STDIN_FILENO]
     while True:
         rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
@@ -131,10 +140,15 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
             except IndexError:
                 data = None
             if not data:
-                wfds.remove(STDIN_FILENO)
+#                wfds.remove(STDIN_FILENO)
                 break
             else:
                 # This should be randomized to simulate typing.
                 os.write(master_fd, data)
-                time.sleep(.5)
-    return None
+                written.append(data)
+                time.sleep(.1)
+    return written
+    
+instructions = {"insert": "i", "newline":"\n", "allo":"bye", "foo":"bar", "toto":"tata", "escape":chr(27)}
+
+ez_spawn("vi", instructions)
