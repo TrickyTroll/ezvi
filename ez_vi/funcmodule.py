@@ -66,8 +66,7 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     returns (tuple): A tuple that contains the process id and exit
     status.
     """
-    all_written = []
-    all_written.append(instructions.copy())
+    all_written = [] # Useful for debugging.
     if type(argv) == str:
         argv = (argv,)
     pid, master_fd = pty.fork()
@@ -103,7 +102,6 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         tty.tcsetattr(STDIN_FILENO, tty.TCSAFLUSH, mode)
     os.close(master_fd)
     # wait for completion and return exit status
-    print(all_written)
     return os.waitpid(pid, 0)[1]
 
 def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
@@ -148,7 +146,3 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
                 written.append(data)
                 time.sleep(.1)
     return written
-    
-instructions = {"insert": "i", "newline":"\n", "allo":"bye", "foo":"bar", "toto":"tata", "escape":chr(27)}
-
-ez_spawn("vi", instructions)
