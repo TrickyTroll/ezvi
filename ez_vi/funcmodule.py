@@ -104,6 +104,27 @@ def ez_encode(tw):
             to_return[key] = [value]
     return to_return
 
+def ez_encode_str(to_encode):
+    """
+    Similar to `ez_encode`, except it encodes a `str` instead of a `dict`.
+    It encodes per character and puts them into a list.
+
+    to_encode (str): The string that has to be encoded.
+
+    returns (list): A `list` of encoded chars. Encodes in UTF-*8.
+    """
+    to_return = []
+    for char in list(to_encode):
+        if type(char) != bytes:
+            try:
+                to_return.append(char.encode("utf-8"))
+            except AttributeError:
+                raise("`to_encode` must be of type `str`")
+        else:
+            # This is a problem as they could be encoded differently.
+            to_return.append(char)
+    return to_return
+
 def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     """
     Writes every char in `to_write` to `master_fd`.
@@ -144,4 +165,4 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
                 os.write(master_fd, data)
                 written.append(data)
                 time.sleep(.1)
-    return written 
+    return written
