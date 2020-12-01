@@ -9,41 +9,6 @@ STDIN_FILENO = 0
 STDOUT_FILENO = 1
 CHILD = 0
 
-def ez_encode(tw):
-    """
-    Encodes a `dict` for which every value is a string. The strings
-    are encoded per character and the returned `dict` contains lists
-    of encoded chars.
-    
-    tw (dict): `dict` of strings that will be encoded. The strings
-    also already be encoded. In such cases, they will be returned
-    as-is.
-    
-    returns (dict): `dict` that contains the encoded strings as lists
-    of encoded chars.
-    """
-    to_return = tw.copy()
-    for key, value in to_return.items():
-        if type(value) != bytes:
-            try:
-                chars = list(value)
-                to_return[key] = [item.encode('utf-8') for item in chars]
-            except AttributeError:
-                raise("Instructions must be of type string.")
-        else:
-            to_return[key] = [value]
-    return to_return
-    
-def ez_read(fd):
-    """
-    Standard read function.
-    
-    fd(int): File descriptor.
-    
-    returns(byte string): Up to 1024 bytes that have been read from `fd`.
-    """
-    return os.read(fd, 1024)
-
 def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     """
     To spawn the process. Heavily inspired from Python's `pty`
@@ -104,6 +69,41 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     # wait for completion and return exit status
     return os.waitpid(pid, 0)[1]
 
+def ez_read(fd):
+    """
+    Standard read function.
+    
+    fd(int): File descriptor.
+    
+    returns(byte string): Up to 1024 bytes that have been read from `fd`.
+    """
+    return os.read(fd, 1024)
+
+def ez_encode(tw):
+    """
+    Encodes a `dict` for which every value is a string. The strings
+    are encoded per character and the returned `dict` contains lists
+    of encoded chars.
+    
+    tw (dict): `dict` of strings that will be encoded. The strings
+    also already be encoded. In such cases, they will be returned
+    as-is.
+    
+    returns (dict): `dict` that contains the encoded strings as lists
+    of encoded chars.
+    """
+    to_return = tw.copy()
+    for key, value in to_return.items():
+        if type(value) != bytes:
+            try:
+                chars = list(value)
+                to_return[key] = [item.encode('utf-8') for item in chars]
+            except AttributeError:
+                raise("Instructions must be of type string.")
+        else:
+            to_return[key] = [value]
+    return to_return
+
 def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     """
     Writes every char in `to_write` to `master_fd`.
@@ -144,4 +144,4 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
                 os.write(master_fd, data)
                 written.append(data)
                 time.sleep(.1)
-    return written
+    return written 
