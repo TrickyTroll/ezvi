@@ -138,7 +138,6 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
             except IndexError:
                 data = None
             if not data:
-#                wfds.remove(STDIN_FILENO)
                 break
             else:
                 # This should be randomized to simulate typing.
