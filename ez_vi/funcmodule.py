@@ -187,10 +187,11 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
 
 def write_chars(to_write):
     """
-    Types `to_write` to the file.
+    To type `to_write` to the file.
     """
+    to_write = ez_encode_str(to_write)
 
-    pass
+    return(to_write)
 
 def write_after(to_write, type):
     """
