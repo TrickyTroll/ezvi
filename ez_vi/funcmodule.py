@@ -9,6 +9,16 @@ STDIN_FILENO = 0
 STDOUT_FILENO = 1
 CHILD = 0
 
+def ez_read(fd):
+    """
+    Standard read function.
+    
+    fd(int): File descriptor.
+    
+    returns(byte string): Up to 1024 bytes that have been read from `fd`.
+    """
+    return os.read(fd, 1024)
+    
 def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     """
     To spawn the process. Heavily inspired from Python's `pty`
@@ -68,16 +78,6 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     os.close(master_fd)
     # wait for completion and return exit status
     return os.waitpid(pid, 0)[1]
-
-def ez_read(fd):
-    """
-    Standard read function.
-    
-    fd(int): File descriptor.
-    
-    returns(byte string): Up to 1024 bytes that have been read from `fd`.
-    """
-    return os.read(fd, 1024)
 
 def ez_encode(tw):
     """
