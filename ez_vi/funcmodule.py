@@ -189,16 +189,25 @@ def write_chars(to_write):
     """
     To type `to_write` to the file.
     """
+    to_write = "i" + to_write + chr(27)
     to_write = ez_encode_str(to_write)
 
     return(to_write)
 
-def write_after(to_write, type):
+def write_after_word(to_write):
     """
-    Writes `to_write` after `type`. `type` could be line, word or char.
+    To write `to_write` after `thing`. `thing` could be line, word or char.
     """
+    types = ["line", "word", "char"]
+    assert thing in types, ""
 
     pass
+
+def write_after_line(to_write):
+
+    pass
+
+def write_after_char(to_write):
 
 def write_before(to_write, type):
     """
