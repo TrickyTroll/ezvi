@@ -220,19 +220,45 @@ def write_after_char(to_write):
     """
     To type `to_write` after the cursor's position.
     """
-    prepend = "$" + "a"
+    prepend = "a"
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
     return(to_write)
 
-def write_before(to_write, type):
+def write_before_word(to_write):
     """
-    Writes `to_write` before `type`. `type` could be line, word or char.
+    To type `to_write` before `thing`. `thing` could be line, word or char.
     """
+    prepend = "b" + "a" # TODO: Replace "b" by something that works.
+    append = chr(27)
+    to_write = prepend + to_write + append
+    to_write = ez_encode_str(to_write)
 
-    pass
+    return (to_write)
+
+def write_before_line(to_write):
+    """
+    To type `to_write` at the end of the line.
+    """
+    prepend = "0" + "i"
+    append = chr(27)
+    to_write = prepend + to_write + append
+    to_write = ez_encode_str(to_write)
+
+    return(to_write)
+
+def write_before_char(to_write):
+    """
+    To type `to_write` before the cursor's position.
+    """
+    prepend = "i"
+    append = chr(27)
+    to_write = prepend + to_write + append
+    to_write = ez_encode_str(to_write)
+
+    return(to_write)
 
 # Movement
 
