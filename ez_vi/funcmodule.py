@@ -9,6 +9,60 @@ STDIN_FILENO = 0
 STDOUT_FILENO = 1
 CHILD = 0
 
+#######################################################################
+#                       Character Encoding                            #
+#######################################################################
+
+def ez_encode(tw):
+    """
+    Encodes a `dict` for which every value is a string. The strings
+    are encoded per character and the returned `dict` contains lists
+    of encoded chars.
+    
+    tw (dict): `dict` of strings that will be encoded. The strings
+    also already be encoded. In such cases, they will be returned
+    as-is.
+    
+    returns (dict): `dict` that contains the encoded strings as lists
+    of encoded chars.
+    """
+    to_return = tw.copy()
+    for key, value in to_return.items():
+        if type(value) != bytes:
+            try:
+                chars = list(value)
+                to_return[key] = [item.encode('utf-8') for item in chars]
+            except AttributeError:
+                raise("Instructions must be of type string.")
+        else:
+            to_return[key] = [value]
+    return to_return
+
+def ez_encode_str(to_encode):
+    """
+    Similar to `ez_encode`, except it encodes a `str` instead of a `dict`.
+    It encodes per character and puts them into a list.
+
+    to_encode (str): The string that has to be encoded.
+
+    returns (list): A `list` of encoded chars. Encodes in UTF-*8.
+    """
+    to_return = []
+    for char in list(to_encode):
+        if type(char) != bytes:
+            try:
+                to_return.append(char.encode("utf-8"))
+            except AttributeError:
+                raise("`to_encode` must be of type `str`")
+        else:
+            # This is a problem as they could be encoded differently.
+            to_return.append(char)
+
+
+#######################################################################
+#                         Read function                               #
+#######################################################################
+
 def ez_read(fd):
     """
     Standard read function.
@@ -18,6 +72,10 @@ def ez_read(fd):
     returns(byte string): Up to 1024 bytes that have been read from `fd`.
     """
     return os.read(fd, 1024)
+
+#######################################################################
+#                Spawning an writing to process                       #
+#######################################################################
     
 def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     """
@@ -79,52 +137,6 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     # wait for completion and return exit status
     return os.waitpid(pid, 0)[1]
 
-def ez_encode(tw):
-    """
-    Encodes a `dict` for which every value is a string. The strings
-    are encoded per character and the returned `dict` contains lists
-    of encoded chars.
-    
-    tw (dict): `dict` of strings that will be encoded. The strings
-    also already be encoded. In such cases, they will be returned
-    as-is.
-    
-    returns (dict): `dict` that contains the encoded strings as lists
-    of encoded chars.
-    """
-    to_return = tw.copy()
-    for key, value in to_return.items():
-        if type(value) != bytes:
-            try:
-                chars = list(value)
-                to_return[key] = [item.encode('utf-8') for item in chars]
-            except AttributeError:
-                raise("Instructions must be of type string.")
-        else:
-            to_return[key] = [value]
-    return to_return
-
-def ez_encode_str(to_encode):
-    """
-    Similar to `ez_encode`, except it encodes a `str` instead of a `dict`.
-    It encodes per character and puts them into a list.
-
-    to_encode (str): The string that has to be encoded.
-
-    returns (list): A `list` of encoded chars. Encodes in UTF-*8.
-    """
-    to_return = []
-    for char in list(to_encode):
-        if type(char) != bytes:
-            try:
-                to_return.append(char.encode("utf-8"))
-            except AttributeError:
-                raise("`to_encode` must be of type `str`")
-        else:
-            # This is a problem as they could be encoded differently.
-            to_return.append(char)
-    return to_return
-
 def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     """
     Writes every char in `to_write` to `master_fd`.
@@ -166,3 +178,69 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
                 written.append(data)
                 time.sleep(.1)
     return written
+
+#######################################################################
+#                            Vi tools                                 #
+#######################################################################
+
+# Writing
+
+def write_chars(to_write):
+    """
+    Types `to_write` to the file.
+    """
+
+    pass
+
+def write_after(to_write, type):
+    """
+    Writes `to_write` after `type`. `type` could be line, word or char.
+    """
+
+    pass
+
+def write_before(to_write, type):
+    """
+    Writes `to_write` before `type`. `type` could be line, word or char.
+    """
+
+    pass
+
+# Movement
+
+def goto_line(line_num):
+    """
+    Moves the cursor to `line_num`.
+    """
+
+    pass
+
+def goto_column(column_num):
+    """
+    Moves the cursor to `column_num` on the current line.
+    """
+
+    pass
+
+# Replace functions
+
+def replace(start, end, new):
+    """
+    Replaces from `start` to `end` on the current line.
+    """
+
+    pass
+
+def find_replace(old, new):
+    """
+    Finds `old` on the current line and replaces it with `new`.
+    """
+
+    pass
+
+def replace_line(new):
+    """
+    Replaces the whole line with `new`.
+    """
+
+    pass
