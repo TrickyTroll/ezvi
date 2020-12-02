@@ -18,11 +18,11 @@ def ez_encode(tw):
     Encodes a `dict` for which every value is a string. The strings
     are encoded per character and the returned `dict` contains lists
     of encoded chars.
-    
+
     tw (dict): `dict` of strings that will be encoded. The strings
     also already be encoded. In such cases, they will be returned
     as-is.
-    
+
     returns (dict): `dict` that contains the encoded strings as lists
     of encoded chars.
     """
@@ -66,9 +66,9 @@ def ez_encode_str(to_encode):
 def ez_read(fd):
     """
     Standard read function.
-    
+
     fd(int): File descriptor.
-    
+
     returns(byte string): Up to 1024 bytes that have been read from `fd`.
     """
     return os.read(fd, 1024)
@@ -76,7 +76,7 @@ def ez_read(fd):
 #######################################################################
 #                Spawning an writing to process                       #
 #######################################################################
-    
+
 def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     """
     To spawn the process. Heavily inspired from Python's `pty`
@@ -84,7 +84,7 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     needs to be edited. This function can write a whole text file
     following the instructions dictionary and executing those
     instructions using `ez_copy()`.
-    
+
     argv (tuple): First element should be the program to run.
     The other elements are the arguments passed to the program.
     instructions (dict): Contains the insctuctions that will be
@@ -94,8 +94,8 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     info from the master's file descriptor.
     stdin_read (function): The function that will be used to read
     from STDIN (if the user wants to write to the program).
-    
-    
+
+
     returns (tuple): A tuple that contains the process id and exit
     status.
     """
@@ -123,9 +123,9 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         for key, value in encoded.items():
         # For now my program isn't being too wise about what to
         # do depending on the type of instructions.
-            all_written.append(ez_write(master_fd, 
-                                        value, 
-                                        master_read, 
+            all_written.append(ez_write(master_fd,
+                                        value,
+                                        master_read,
                                         stdin_read))
     except OSError:
         if restore:
@@ -140,16 +140,16 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
 def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
     """
     Writes every char in `to_write` to `master_fd`.
-    
+
     master_fd (int): Master's file descriptor.
-    to_write (list of bytes): List of encoded chars that will be 
+    to_write (list of bytes): List of encoded chars that will be
     written to `master_fd`.
     master_read (function): The function that will be used to read
     info from the master's file descriptor.
     stdin_read (function): The function that will be used to read
     from STDIN (if the user wants to write to the program).
-    
-    returns written(list of bytes): A list of all chars that 
+
+    returns written(list of bytes): A list of all chars that
     have been written.
     """
     written = []
@@ -196,18 +196,36 @@ def write_chars(to_write):
 
 def write_after_word(to_write):
     """
-    To write `to_write` after `thing`. `thing` could be line, word or char.
+    To type `to_write` after `thing`. `thing` could be line, word or char.
     """
-    types = ["line", "word", "char"]
-    assert thing in types, ""
+    prepend = "e" + "a"
+    append = chr(27)
+    to_write = prepend + to_write + append
+    to_write = ez_encode_str(to_write)
 
-    pass
+    return (to_write)
 
 def write_after_line(to_write):
+    """
+    To type `to_write` at the end of the line.
+    """
+    prepend = "$" + "a"
+    append = chr(27)
+    to_write = prepend + to_write + append
+    to_write = ez_encode_str(to_write)
 
-    pass
+    return(to_write)
 
 def write_after_char(to_write):
+    """
+    To type `to_write` after the cursor's position.
+    """
+    prepend = "$" + "a"
+    append = chr(27)
+    to_write = prepend + to_write + append
+    to_write = ez_encode_str(to_write)
+
+    return(to_write)
 
 def write_before(to_write, type):
     """
