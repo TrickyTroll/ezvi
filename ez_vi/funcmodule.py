@@ -166,6 +166,15 @@ def write_chars(to_write):
 
     return(to_write)
 
+def newline():
+    """
+    Types a new line.
+    """
+    to_write = "\n"
+    to_write = ez_encode_str(to_write)
+
+    return to_write
+
 def write_after_word(to_write):
     """
     To type `to_write` after `thing`. `thing` could be line, word or char.
@@ -236,7 +245,7 @@ def write_before_char(to_write):
 
 def goto_line(line_num):
     """
-    Moves the cursor to `line_num`.
+    To move the cursor to `line_num`.
     """
     to_write = str(line_num) + "G"
     to_write = ez_encode_str(to_write)
@@ -245,7 +254,7 @@ def goto_line(line_num):
 
 def goto_column(column_num):
     """
-    Moves the cursor to `column_num` on the current line.
+    To move the cursor to `column_num` on the current line.
     """
     # This would be much cleaner if I could get the cursor's position.
     to_write = "0" + str(column_num-1) + "l"
@@ -257,7 +266,7 @@ def goto_column(column_num):
 
 def replace(start, end, new):
     """
-    Replaces from `start` to `end` on the current line.
+    To replace from `start` to `end` on the current line.
     """
     movement = goto_column(start)
     replace = "c" + str(end-start)
@@ -268,18 +277,38 @@ def replace(start, end, new):
 
 def find_replace(old, new):
     """
-    Finds `old` on the current line and replaces it with `new`.
+    To find `old` on the current line and replaces it with `new`.
     """
 
     pass
 
 def replace_line(new):
     """
-    Replaces the whole line with `new`.
+    To replace the whole line with `new`.
     """
     movement = "0"
     replace = "c" + "$"
     to_write = movement + replace + chr(27)
+    to_write = ez_encode_str(to_write)
+
+    return to_write
+
+# Vi commands
+
+def write_file(filename):
+    """
+    To write the contents to `filename`.
+    """
+    to_write = ":w " + filename
+    to_write = ez_encode_str(to_write)
+
+    return to_write
+
+def quit_editor():
+    """
+    To quit the editor.
+    """
+    to_write = ":q"
     to_write = ez_encode_str(to_write)
 
     return to_write
