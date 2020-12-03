@@ -13,31 +13,6 @@ CHILD = 0
 #                       Character Encoding                            #
 #######################################################################
 
-def ez_encode(tw):
-    """
-    Encodes a `dict` for which every value is a string. The strings
-    are encoded per character and the returned `dict` contains lists
-    of encoded chars.
-
-    tw (dict): `dict` of strings that will be encoded. The strings
-    also already be encoded. In such cases, they will be returned
-    as-is.
-
-    returns (dict): `dict` that contains the encoded strings as lists
-    of encoded chars.
-    """
-    to_return = tw.copy()
-    for key, value in to_return.items():
-        if type(value) != bytes:
-            try:
-                chars = list(value)
-                to_return[key] = [item.encode('utf-8') for item in chars]
-            except AttributeError:
-                raise("Instructions must be of type string.")
-        else:
-            to_return[key] = [value]
-    return to_return
-
 def ez_encode_str(to_encode):
     """
     Similar to `ez_encode`, except it encodes a `str` instead of a `dict`.
@@ -311,3 +286,7 @@ def replace_line(new):
     to_write = ez_encode_str(to_write)
 
     return to_write
+
+#######################################################################
+#                      Searching/editing tools                        #
+#######################################################################
