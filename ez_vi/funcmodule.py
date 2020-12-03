@@ -267,6 +267,8 @@ def goto_line(line_num):
     Moves the cursor to `line_num`.
     """
     to_write = str(line_num) + "G"
+    to_write = ez_encode_str(to_write)
+
     return(to_write)
 
 def goto_column(column_num):
@@ -275,6 +277,8 @@ def goto_column(column_num):
     """
     # This would be much cleaner if I could get the cursor's position.
     to_write = "0" + str(column_num-1) + "l"
+    to_write = ez_encode_str(to_write)
+
     return(to_write)
 
 # Replace functions
@@ -283,8 +287,12 @@ def replace(start, end, new):
     """
     Replaces from `start` to `end` on the current line.
     """
+    movement = goto_column(start)
+    replace = "c" + str(end-start)
+    to_write = movement + replace + chr(27)
+    to_write = ez_encode_str(to_write)
 
-    pass
+    return to_write
 
 def find_replace(old, new):
     """
@@ -297,5 +305,9 @@ def replace_line(new):
     """
     Replaces the whole line with `new`.
     """
+    movement = "0"
+    replace = "c" + "$"
+    to_write = movement + replace + chr(27)
+    to_write = ez_encode_str(to_write)
 
-    pass
+    return to_write
