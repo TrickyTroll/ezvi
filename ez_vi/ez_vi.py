@@ -1,15 +1,10 @@
 from funcmodule import *
 # Need to remove this later. This is what the instructions should look like.
-writing = {"insert": "i", 
-            "allo":"bye", 
-            "foo":"bar", 
-            "newline":"\n", 
-            "toto":"tata", 
-            "escape":chr(27),
-            "write": ":w toto.txt",
-            "eter": "\n", 
-            "command": ":q!",
-            "enter": "\n"}
+writing = [write_chars("toto"),
+            newline(),
+            write_chars("hello"),
+            write_file("filename.txt"),
+            quit_editor()]
 
 ez_spawn("vi", writing)
 print("Done")
