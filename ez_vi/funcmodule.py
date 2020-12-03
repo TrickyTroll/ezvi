@@ -266,15 +266,16 @@ def goto_line(line_num):
     """
     Moves the cursor to `line_num`.
     """
-
-    pass
+    to_write = str(line_num) + "G"
+    return(to_write)
 
 def goto_column(column_num):
     """
     Moves the cursor to `column_num` on the current line.
     """
-
-    pass
+    # This would be much cleaner if I could get the cursor's position.
+    to_write = "0" + str(column_num-1) + "l"
+    return(to_write)
 
 # Replace functions
 
