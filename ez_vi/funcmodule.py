@@ -62,9 +62,9 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
 
     argv (tuple): First element should be the program to run.
     The other elements are the arguments passed to the program.
-    instructions (dict): Contains the insctuctions that will be
-    passed to VI and the text that should be written. The options
-    available will soon be documented.
+    instructions (list): Contains the insctuctions (lists) that will
+    be passed to VI and the text that should be written. Its contents
+    shoud have been created by the "Vi tools".
     master_read (function): The function that will be used to read
     info from the master's file descriptor.
     stdin_read (function): The function that will be used to read
@@ -93,13 +93,10 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         restore = 0
     # This is where the fun begins.
     # Encoding the instructions.
-    encoded = ez_encode(instructions)
     try:
-        for key, value in encoded.items():
-        # For now my program isn't being too wise about what to
-        # do depending on the type of instructions.
+        for item in instructions:
             all_written.append(ez_write(master_fd,
-                                        value,
+                                        item,
                                         master_read,
                                         stdin_read))
     except OSError:
