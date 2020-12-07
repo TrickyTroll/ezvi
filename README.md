@@ -11,6 +11,9 @@ API nor command line interface.
 Since the project is not finished, you will have to edit the file
 `ez_vi.py` under the `ez_vi` directory.
 
+The functions that are available have not been documented yet.
+Please see the "Vi tools" sections of the functionE module for more info.
+
 ## Development
 
 To see the latest commit, go check the `latest` branch.
