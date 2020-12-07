@@ -175,9 +175,26 @@ def write_chars(to_write):
 
 
 def newline():
-    """Types a new line."""
+    """Types a new line.
+    This also moves the cursor to the beginning of the new line.
 
-    to_write = "\n"
+    :rtype: list
+    """
+
+    to_write = "o" + chr(27)
+    to_write = ez_encode_str(to_write)
+
+    return to_write
+
+
+def newline_over():
+    """To create a new line over the cursor
+    This also moves the cursor to the beginning of the new line.
+
+    :rtype: list
+    """
+
+    to_write = "O" + chr(27)
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -277,7 +294,7 @@ def replace(start, end, new):
 
     movement = goto_column(start)
     replace = "c" + str(end - start)
-    to_write = movement + replace + chr(27)
+    to_write = movement + replace + new + chr(27)
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -294,7 +311,7 @@ def replace_line(new):
 
     movement = "0"
     replace = "c" + "$"
-    to_write = movement + replace + chr(27)
+    to_write = movement + replace + new + chr(27)
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -305,7 +322,7 @@ def replace_line(new):
 def write_file(filename):
     """To write the contents to `filename`."""
 
-    to_write = ":w " + filename
+    to_write = ":w " + filename + "\n"
     to_write = ez_encode_str(to_write)
 
     return to_write
