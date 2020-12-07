@@ -1,26 +1,26 @@
-import time
 import os
 import pty
+import time
 import tty
-import sys
 from select import select
 
 STDIN_FILENO = 0
 STDOUT_FILENO = 1
 CHILD = 0
 
+
 #######################################################################
 #                       Character Encoding                            #
 #######################################################################
 
-def ez_encode_str(to_encode):
-    """
-    Similar to `ez_encode`, except it encodes a `str` instead of a `dict`.
-    It encodes per character and puts them into a list.
+def ez_encode_str(to_encode) -> list:
+    """ Encodes a `str` per character and puts them into a list.
 
-    to_encode (str): The string that has to be encoded.
+    :type to_encode: str
+    :param to_encode: The string that has to be encoded.
 
-    returns (list): A `list` of encoded chars. Encodes in UTF-*8.
+    :rtype: list
+    :return: A list of encoded chars. Encodes in UTF-8
     """
     to_return = []
     for char in list(to_encode):
@@ -28,53 +28,59 @@ def ez_encode_str(to_encode):
             try:
                 to_return.append(char.encode("utf-8"))
             except AttributeError:
-                raise("`to_encode` must be of type `str`")
+                raise Exception("`to_encode` must be of type `str`")
         else:
             # This is a problem as they could be encoded differently.
             to_return.append(char)
+    return to_return
 
 
 #######################################################################
 #                         Read function                               #
 #######################################################################
 
-def ez_read(fd):
-    """
-    Standard read function.
+def ez_read(fd) -> bytes:
+    """ Standard read function.
 
-    fd(int): File descriptor.
+    :type fd: int
+    :param fd: File descriptor.
 
-    returns(byte string): Up to 1024 bytes that have been read from `fd`.
+    :rtype: bytes
+    :return: Up to 1024 bytes that have been read from `fd`.
     """
     return os.read(fd, 1024)
+
 
 #######################################################################
 #                Spawning an writing to process                       #
 #######################################################################
 
-def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
-    """
+def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
+    """ Spawns a process
     To spawn the process. Heavily inspired from Python's `pty`
     module. `ez_spawn()` should only be used once per file that
     needs to be edited. This function can write a whole text file
     following the instructions dictionary and executing those
     instructions using `ez_copy()`.
 
-    argv (tuple): First element should be the program to run.
-    The other elements are the arguments passed to the program.
-    instructions (list): Contains the insctuctions (lists) that will
-    be passed to VI and the text that should be written. Its contents
-    shoud have been created by the "Vi tools".
-    master_read (function): The function that will be used to read
+    :type argv: tuple
+    :param argv: First element is the program to run. Other elements
+    are the arguments passed to the program.
+    :type instructions: list
+    :param instructions: Contains all the instructions that will be
+    passed to Vi. Its contents should have been created using the
+    "Vi tools".
+    :type master_read: function
+    :param master_read: The function that will be used to read
     info from the master's file descriptor.
-    stdin_read (function): The function that will be used to read
-    from STDIN (if the user wants to write to the program).
+    :type stdin_read: function
+    :param stdin_read: The function that will be used to read
+    info from the master's file descriptor.
 
-
-    returns (tuple): A tuple that contains the process id and exit
-    status.
+    :rtype: int
+    :return: Exit status
     """
-    all_written = [] # Useful for debugging.
+    all_written = []  # Useful for debugging.
     if type(argv) == str:
         argv = (argv,)
     pid, master_fd = pty.fork()
@@ -85,7 +91,7 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
         mode = tty.tcgetattr(STDIN_FILENO)
         # The next line is required to make sure that you can't type over vi
         # either.
-        tty.setraw(STDIN_FILENO) # disable line buffering
+        tty.setraw(STDIN_FILENO)  # disable line buffering
         # interrupt signals are no longer interpreted
         restore = 1
     except tty.error:
@@ -109,7 +115,8 @@ def ez_spawn(argv, instructions, master_read = ez_read, stdin_read = ez_read):
     # wait for completion and return exit status
     return os.waitpid(pid, 0)[1]
 
-def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
+
+def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
     """
     Writes every char in `to_write` to `master_fd`.
 
@@ -139,7 +146,7 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
         # This should always be true.
         if STDIN_FILENO in wfds:
             try:
-                data = to_write.pop(0) # The item should already be encoded.
+                data = to_write.pop(0)  # The item should already be encoded.
             except IndexError:
                 data = None
             if not data:
@@ -151,6 +158,7 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
                 time.sleep(.1)
     return written
 
+
 #######################################################################
 #                            Vi tools                                 #
 #######################################################################
@@ -158,134 +166,132 @@ def ez_write(master_fd, to_write, master_read = ez_read, stdin_read = ez_read):
 # Writing
 
 def write_chars(to_write):
-    """
-    To type `to_write` to the file.
-    """
+    """To type `to_write` to the file."""
+
     to_write = "i" + to_write + chr(27)
     to_write = ez_encode_str(to_write)
 
-    return(to_write)
+    return to_write
+
 
 def newline():
-    """
-    Types a new line.
-    """
+    """Types a new line."""
+
     to_write = "\n"
     to_write = ez_encode_str(to_write)
 
     return to_write
 
+
 def write_after_word(to_write):
-    """
-    To type `to_write` after `thing`. `thing` could be line, word or char.
+    """To type `to_write` after `thing`. `thing` could be line, word or char.
     """
     prepend = "e" + "a"
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
-    return (to_write)
+    return to_write
+
 
 def write_after_line(to_write):
-    """
-    To type `to_write` at the end of the line.
-    """
+    """To type `to_write` at the end of the line."""
+
     prepend = "$" + "a"
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
-    return(to_write)
+    return to_write
+
 
 def write_after_char(to_write):
-    """
-    To type `to_write` after the cursor's position.
-    """
+    """To type `to_write` after the cursor's position."""
+
     prepend = "a"
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
-    return(to_write)
+    return to_write
+
 
 def write_before_word(to_write):
-    """
-    To type `to_write` before `thing`. `thing` could be line, word or char.
-    """
-    prepend = "b" + "a" # TODO: Replace "b" by something that works.
+    """To type `to_write` before `thing`. `thing` could be line, word or char."""
+
+    prepend = "b" + "a"  # TODO: Replace "b" by something that works.
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
-    return (to_write)
+    return to_write
+
 
 def write_before_line(to_write):
-    """
-    To type `to_write` at the end of the line.
-    """
+    """To type `to_write` at the end of the line."""
+
     prepend = "0" + "i"
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
-    return(to_write)
+    return to_write
+
 
 def write_before_char(to_write):
-    """
-    To type `to_write` before the cursor's position.
-    """
+    """To type `to_write` before the cursor's position."""
+
     prepend = "i"
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
-    return(to_write)
+    return to_write
+
 
 # Movement
 
 def goto_line(line_num):
-    """
-    To move the cursor to `line_num`.
-    """
+    """To move the cursor to `line_num`."""
+
     to_write = str(line_num) + "G"
     to_write = ez_encode_str(to_write)
 
-    return(to_write)
+    return to_write
+
 
 def goto_column(column_num):
-    """
-    To move the cursor to `column_num` on the current line.
-    """
+    """To move the cursor to `column_num` on the current line."""
+
     # This would be much cleaner if I could get the cursor's position.
-    to_write = "0" + str(column_num-1) + "l"
+    to_write = "0" + str(column_num - 1) + "l"
     to_write = ez_encode_str(to_write)
 
-    return(to_write)
+    return to_write
+
 
 # Replace functions
 
 def replace(start, end, new):
-    """
-    To replace from `start` to `end` on the current line.
-    """
+    """To replace from `start` to `end` on the current line."""
+
     movement = goto_column(start)
-    replace = "c" + str(end-start)
+    replace = "c" + str(end - start)
     to_write = movement + replace + chr(27)
     to_write = ez_encode_str(to_write)
 
     return to_write
 
+
 def find_replace(old, new):
-    """
-    To find `old` on the current line and replaces it with `new`.
-    """
+    """To find `old` on the current line and replaces it with `new`."""
 
     pass
 
+
 def replace_line(new):
-    """
-    To replace the whole line with `new`.
-    """
+    """To replace the whole line with `new`."""
+
     movement = "0"
     replace = "c" + "$"
     to_write = movement + replace + chr(27)
@@ -293,21 +299,21 @@ def replace_line(new):
 
     return to_write
 
+
 # Vi commands
 
 def write_file(filename):
-    """
-    To write the contents to `filename`.
-    """
+    """To write the contents to `filename`."""
+
     to_write = ":w " + filename
     to_write = ez_encode_str(to_write)
 
     return to_write
 
+
 def quit_editor():
-    """
-    To quit the editor.
-    """
+    """To quit the editor."""
+
     to_write = ":q"
     to_write = ez_encode_str(to_write)
 
