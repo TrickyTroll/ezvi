@@ -166,7 +166,10 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
 # Writing
 
 def write_chars(to_write):
-    """To type `to_write` to the file."""
+    """To type `to_write` to the file.
+
+    :rtype: list
+    """
 
     to_write = "i" + to_write + chr(27)
     to_write = ez_encode_str(to_write)
@@ -202,6 +205,8 @@ def newline_over():
 
 def write_after_word(to_write):
     """To type `to_write` after `thing`. `thing` could be line, word or char.
+
+    :rtype: list
     """
     prepend = "e" + "a"
     append = chr(27)
@@ -212,7 +217,10 @@ def write_after_word(to_write):
 
 
 def write_after_line(to_write):
-    """To type `to_write` at the end of the line."""
+    """To type `to_write` at the end of the line.
+
+    :rtype: list
+    """
 
     prepend = "$" + "a"
     append = chr(27)
@@ -223,7 +231,10 @@ def write_after_line(to_write):
 
 
 def write_after_char(to_write):
-    """To type `to_write` after the cursor's position."""
+    """To type `to_write` after the cursor's position.
+
+    :rtype: list
+    """
 
     prepend = "a"
     append = chr(27)
@@ -234,7 +245,10 @@ def write_after_char(to_write):
 
 
 def write_before_word(to_write):
-    """To type `to_write` before `thing`. `thing` could be line, word or char."""
+    """To type `to_write` before `thing`. `thing` could be line, word or char.
+
+    :rtype: list
+    """
 
     prepend = "b" + "a"  # TODO: Replace "b" by something that works.
     append = chr(27)
@@ -245,7 +259,10 @@ def write_before_word(to_write):
 
 
 def write_before_line(to_write):
-    """To type `to_write` at the end of the line."""
+    """To type `to_write` at the end of the line.
+
+    :rtype: list
+    """
 
     prepend = "0" + "i"
     append = chr(27)
@@ -256,7 +273,10 @@ def write_before_line(to_write):
 
 
 def write_before_char(to_write):
-    """To type `to_write` before the cursor's position."""
+    """To type `to_write` before the cursor's position.
+
+    :rtype: list
+    """
 
     prepend = "i"
     append = chr(27)
@@ -269,7 +289,10 @@ def write_before_char(to_write):
 # Movement
 
 def goto_line(line_num):
-    """To move the cursor to `line_num`."""
+    """To move the cursor to `line_num`.
+
+    :rtype: list
+    """
 
     to_write = str(line_num) + "G"
     to_write = ez_encode_str(to_write)
@@ -278,7 +301,10 @@ def goto_line(line_num):
 
 
 def goto_column(column_num):
-    """To move the cursor to `column_num` on the current line."""
+    """To move the cursor to `column_num` on the current line.
+
+    :rtype: list
+    """
 
     # This would be much cleaner if I could get the cursor's position.
     to_write = "0" + str(column_num - 1) + "l"
@@ -290,7 +316,10 @@ def goto_column(column_num):
 # Replace functions
 
 def replace(start, end, new):
-    """To replace from `start` to `end` on the current line."""
+    """To replace from `start` to `end` on the current line.
+
+    :rtype: list
+    """
 
     movement = goto_column(start)
     replace = "c" + str(end - start)
@@ -307,7 +336,10 @@ def find_replace(old, new):
 
 
 def replace_line(new):
-    """To replace the whole line with `new`."""
+    """To replace the whole line with `new`.
+
+    :rtype: list
+    """
 
     movement = "0"
     replace = "c" + "$"
@@ -320,7 +352,10 @@ def replace_line(new):
 # Vi commands
 
 def write_file(filename):
-    """To write the contents to `filename`."""
+    """To write the contents to `filename`.
+
+    :rtype: list
+    """
 
     to_write = ":w " + filename + "\n"
     to_write = ez_encode_str(to_write)
@@ -329,7 +364,10 @@ def write_file(filename):
 
 
 def quit_editor():
-    """To quit the editor."""
+    """To quit the editor.
+
+    :rtype: list
+    """
 
     to_write = ":q"
     to_write = ez_encode_str(to_write)
