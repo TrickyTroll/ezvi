@@ -1,6 +1,7 @@
 import os
 import pty
 import time
+import yaml
 import tty
 from select import select
 
@@ -13,7 +14,7 @@ CHILD = 0
 #                       Character Encoding                            #
 #######################################################################
 
-def ez_encode_str(to_encode) -> list:
+def ez_encode_str(to_encode: str) -> list:
     """ Encodes a `str` per character and puts them into a list.
 
     :type to_encode: str
@@ -117,19 +118,22 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
 
 
 def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
-    """
-    Writes every char in `to_write` to `master_fd`.
+    """Writes every char in `to_write` to `master_fd`.
 
-    master_fd (int): Master's file descriptor.
-    to_write (list of bytes): List of encoded chars that will be
+    :type master_fd: int
+    :param master_fd: Master's file descriptor.
+    :type to_write: list
+    :param to_write: List of encoded chars that will be
     written to `master_fd`.
-    master_read (function): The function that will be used to read
+    :type master_read: function
+    :param master_read: The function that will be used to read
     info from the master's file descriptor.
-    stdin_read (function): The function that will be used to read
+    :type stdin_read: function
+    :param stdin_read: The function that will be used to read
     from STDIN (if the user wants to write to the program).
 
-    returns written(list of bytes): A list of all chars that
-    have been written.
+    :rtype: list
+    :return: A list of all chars that have been written.
     """
     written = []
     fds = [master_fd, STDIN_FILENO]
@@ -171,7 +175,19 @@ def write_chars(to_write):
     :rtype: list
     """
 
-    to_write = "i" + to_write + chr(27)
+    to_write = "a" + to_write + chr(27)
+    to_write = ez_encode_str(to_write)
+
+    return to_write
+
+
+def write_line(to_write):
+    """To type `to_write` create a new line
+
+    :rtype: list
+    """
+
+    to_write = "a" + to_write + "\n" + chr(27)
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -373,6 +389,26 @@ def quit_editor():
     to_write = ez_encode_str(to_write)
 
     return to_write
+
+
+#######################################################################
+#                            YAML parsing                             #
+#######################################################################
+
+def yaml_parser(filename) -> list:
+    """Loads a YAML file. 
+
+    :type filename: bytes
+    :param filename:
+
+    :rtype: list
+    :return: The parsed yaml file.
+    """
+
+    yaml_file = filename.decode('utf-8')
+    parsed = yaml.load(yaml_file)
+
+    return parsed
 
 #######################################################################
 #                      Searching/editing tools                        #
