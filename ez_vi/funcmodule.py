@@ -1,6 +1,8 @@
 import os
 import pty
 import time
+from typing import Dict, Any, Callable
+
 import yaml
 import tty
 from select import select
@@ -166,6 +168,7 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
 #######################################################################
 #                            Vi tools                                 #
 #######################################################################
+
 
 # Writing
 
@@ -391,6 +394,25 @@ def quit_editor():
     return to_write
 
 
+all_tools = {
+    write_chars.__name__: write_chars,
+    newline.__name__: newline,
+    newline_over.__name__: newline_over,
+    write_after_word.__name__: write_after_word,
+    write_after_line.__name__: write_after_line,
+    write_after_char.__name__: write_after_char,
+    write_before_word.__name__: write_before_word,
+    write_before_line.__name__: write_before_line,
+    write_before_char.__name__: write_before_char,
+    goto_line.__name__: goto_line,
+    goto_column.__name__: goto_column,
+    replace.__name__: replace,
+    replace_line.__name__: replace_line,
+    write_file.__name__: write_file,
+    quit_editor.__name__: quit_editor,
+}
+
+
 #######################################################################
 #                            YAML parsing                             #
 #######################################################################
@@ -399,14 +421,25 @@ def yaml_parser(filename) -> list:
     """Loads a YAML file. 
 
     :type filename: bytes
-    :param filename:
+    :param filename: An
 
     :rtype: list
     :return: The parsed yaml file.
     """
 
+    available = [key for key, value in all_tools.items()]
+
     yaml_file = filename.decode('utf-8')
     parsed = yaml.load(yaml_file)
+    for instruction in parsed:
+        for key, value in instruction.items():
+            # If the function is available, run it with "value"
+            # as an argument. This translates the text (values)
+            # according to the instructions (values).
+            if key in available:
+                instruction[key] = (all_tools[key](value))
+            else:
+                raise NotImplementedError(key + "does not exist.")
 
     return parsed
 
