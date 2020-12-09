@@ -1,14 +1,13 @@
 from funcmodule import *
+import time
 
-# Need to remove this later. This is what the instructions should look like.
-writing = [write_chars("Helloooo"),
-           newline(),
-           write_chars("This is a message"),
-           newline(),
-           newline(),
-           write_chars("-- Good Bot"),
-           write_file("filename.txt"),
-           quit_editor()]
+with open("../example/config.yaml") as stream:
+    parsed = yaml_parser(stream)
+
+writing = []
+for item in parsed:
+    for key in item:
+        writing.append(item[key])
 
 ez_spawn(("vi",), writing)
 print("Done")
