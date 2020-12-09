@@ -1,1 +1,5 @@
 - write_line: "Hello!"
+- new_line: 2
+- write_chars: "-- Good Bot."
+- write_file: "message.txt"
+- quit_editor:

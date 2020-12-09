@@ -196,20 +196,22 @@ def write_line(to_write):
     return to_write
 
 
-def newline():
+def new_line(amount):
     """Types a new line.
     This also moves the cursor to the beginning of the new line.
 
     :rtype: list
     """
+    if type(amount) != int:
+        amount = int(amount)
 
-    to_write = "o" + chr(27)
+    to_write = "o" + "\n" * (amount-1) + chr(27)
     to_write = ez_encode_str(to_write)
 
     return to_write
 
 
-def newline_over():
+def new_line_over():
     """To create a new line over the cursor
     This also moves the cursor to the beginning of the new line.
 
@@ -397,8 +399,8 @@ def quit_editor():
 all_tools = {
     write_chars.__name__: write_chars,
     write_line.__name__: write_line,
-    newline.__name__: newline,
-    newline_over.__name__: newline_over,
+    new_line.__name__: new_line,
+    new_line_over.__name__: new_line_over,
     write_after_word.__name__: write_after_word,
     write_after_line.__name__: write_after_line,
     write_after_char.__name__: write_after_char,
@@ -418,11 +420,11 @@ all_tools = {
 #                            YAML parsing                             #
 #######################################################################
 
-def yaml_parser(filename) -> list:
+def yaml_parser(stream) -> list:
     """Loads a YAML file. 
 
-    :type filename: bytes
-    :param filename: An
+    :type stream: bytes
+    :param stream: A stream of bytes to be parsed.
 
     :rtype: list
     :return: The parsed yaml file.
@@ -430,14 +432,18 @@ def yaml_parser(filename) -> list:
 
     available = [key for key, value in all_tools.items()]
 
-    parsed = yaml.safe_load(filename)
+    parsed = yaml.safe_load(stream)
     for instruction in parsed:
         for key, value in instruction.items():
             # If the function is available, run it with "value"
             # as an argument. This translates the text (values)
             # according to the instructions (values).
             if key in available:
-                instruction[key] = (all_tools[key](value))
+                # Removing None types from dict.
+                if instruction[key] is not None:
+                    instruction[key] = (all_tools[key](value))
+                else:
+                    instruction[key] = (all_tools[key]())
             else:
                 raise NotImplementedError(key + " does not exist.")
 
