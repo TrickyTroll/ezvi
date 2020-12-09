@@ -396,6 +396,7 @@ def quit_editor():
 
 all_tools = {
     write_chars.__name__: write_chars,
+    write_line.__name__: write_line,
     newline.__name__: newline,
     newline_over.__name__: newline_over,
     write_after_word.__name__: write_after_word,
@@ -429,8 +430,7 @@ def yaml_parser(filename) -> list:
 
     available = [key for key, value in all_tools.items()]
 
-    yaml_file = filename.decode('utf-8')
-    parsed = yaml.load(yaml_file)
+    parsed = yaml.safe_load(filename)
     for instruction in parsed:
         for key, value in instruction.items():
             # If the function is available, run it with "value"
@@ -439,7 +439,7 @@ def yaml_parser(filename) -> list:
             if key in available:
                 instruction[key] = (all_tools[key](value))
             else:
-                raise NotImplementedError(key + "does not exist.")
+                raise NotImplementedError(key + " does not exist.")
 
     return parsed
 
