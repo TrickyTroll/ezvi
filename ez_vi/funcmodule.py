@@ -423,8 +423,8 @@ all_tools = {
 def yaml_parser(stream) -> list:
     """Loads a YAML file. 
 
-    :type stream: bytes
-    :param stream: A stream of bytes to be parsed.
+    :type stream: textIO
+    :param stream: A stream of text to be parsed.
 
     :rtype: list
     :return: The parsed yaml file.

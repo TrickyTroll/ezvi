@@ -1,5 +1,4 @@
 from funcmodule import *
-import time
 
 with open("../example/config.yaml") as stream:
     parsed = yaml_parser(stream)
