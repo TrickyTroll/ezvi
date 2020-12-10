@@ -1,4 +1,5 @@
 from funcmodule import *
+import click
 
 with open("../example/config.yaml") as stream:
     parsed = yaml_parser(stream)
