@@ -449,6 +449,33 @@ def yaml_parser(stream) -> list:
 
     return parsed
 
+
+#######################################################################
+#                       File comparison                               #
+#######################################################################
+
+# To convert an existing text file to some ez-vi commands.
+
+def file_parser(stream):
+    """To parse a pre-typed text file.
+
+    :param stream: The stream of text to parse.
+    :type stream: textIO
+
+    :return: The parsed text.
+    :rtype: list
+    """
+
+
+    to_return = []
+
+    file = stream.readlines()
+    for line in file:
+        to_return.append(write_chars(line))
+    
+    return to_return
+
+
 #######################################################################
 #                      Searching/editing tools                        #
 #######################################################################
