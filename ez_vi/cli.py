@@ -20,7 +20,8 @@ def app():
     "--writefile",
     type=str,
     help='''\
-    To save the newly created file. Use `ez-vi copy -w [YOUR_PATH]`.
+    To save the newly created file. 
+    Use `ez-vi copy -w [NEW_PATH] [PATH_TO_EXISTING_FILE]`.
     '''
 )
 def copy(infile, writefile):
