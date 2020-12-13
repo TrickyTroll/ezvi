@@ -2,6 +2,7 @@ import os
 import pty
 import time
 from typing import Dict, Any, Callable
+from pathlib import Path
 
 import yaml
 import tty
@@ -491,6 +492,8 @@ def file_parser(stream, name=""):
     if name == "":
         to_return.append(force_quit_editor())
     else:
+        if Path(name).is_file():
+            raise Exception("{} already exists.".format(name))
         to_return.append(write_file(name))
         to_return.append(quit_editor())
     
