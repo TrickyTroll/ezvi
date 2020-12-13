@@ -1,6 +1,6 @@
 import click
 
-from ez_vi.funcmodule import ez_spawn, yaml_parser, file_parser
+from funcmodule import ez_spawn, yaml_parser, file_parser
 
 
 @click.group()
@@ -13,10 +13,8 @@ def app():
 @click.argument(
     "infile",
     type=click.File('r'),
-    help="""\
-    The file you want to copy from.
-    """,
 )
+
 @click.option(
     "-s",
     "--save",
@@ -29,10 +27,6 @@ def copy(infile, save):
     """
     To re-type an already pre-typed file. `ez-vi` will just rewrite the
     file as-is character by character.
-
-    :param infile: The input file.
-    :param save: The path to save the newly typed file.
-    :return: None
     """
     writing = file_parser(infile)
 
@@ -47,16 +41,10 @@ def copy(infile, save):
 @click.argument(
     "config",
     type=click.File('r'),
-    help="""\
-    The file you want to copy from.
-    """,
 )
-def script(config):
-    """To use a YAML config file as input.
 
-    :param config: The config file.
-    :return: None
-    """
+def script(config):
+    """To use a YAML config file as input."""
 
     parsed = yaml_parser(config)
     writing = []
@@ -66,4 +54,8 @@ def script(config):
 
     ez_spawn(("vi",), writing)
 
+app.add_command(script)
+app.add_command(copy)
 
+if __name__ == "__main__":
+    app()
