@@ -116,6 +116,7 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
         tty.tcsetattr(STDIN_FILENO, tty.TCSAFLUSH, mode)
     os.close(master_fd)
     # wait for completion and return exit status
+    print(all_written)
     return os.waitpid(pid, 0)[1]
 
 
@@ -390,7 +391,18 @@ def quit_editor():
     :rtype: list
     """
 
-    to_write = ":q"
+    to_write = ":q" + "\n"
+    to_write = ez_encode_str(to_write)
+
+    return to_write
+
+def force_quit_editor():
+    """To force quit the editor.
+
+    :rtype: list
+    """
+
+    to_write = ":q!" + "\n"
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -413,6 +425,7 @@ all_tools = {
     replace_line.__name__: replace_line,
     write_file.__name__: write_file,
     quit_editor.__name__: quit_editor,
+    force_quit_editor.__name__: force_quit_editor,
 }
 
 
@@ -472,6 +485,7 @@ def file_parser(stream):
     file = stream.readlines()
     for line in file:
         to_return.append(write_chars(line))
+    to_return.append(quit_editor())
     
     return to_return
 
