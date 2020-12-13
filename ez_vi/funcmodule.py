@@ -468,7 +468,7 @@ def yaml_parser(stream) -> list:
 
 # To convert an existing text file to some ez-vi commands.
 
-def file_parser(stream, save=""):
+def file_parser(stream, name=""):
     """To parse a pre-typed text file.
 
     :param stream: The stream of text to parse.
@@ -488,10 +488,10 @@ def file_parser(stream, save=""):
     for line in file:
         to_return.append(write_chars(line))
 
-    if save == "":
+    if name == "":
         to_return.append(force_quit_editor())
     else:
-        to_return.append(write_file(save))
+        to_return.append(write_file(name))
         to_return.append(quit_editor())
     
     return to_return

@@ -16,19 +16,22 @@ def app():
 )
 
 @click.option(
-    "-s",
-    "--save",
+    "-w",
+    "--writefile",
     type=str,
     help='''\
-    To save the newly created file. Use `ez-vi copy -s [YOUR_PATH]`.
+    To save the newly created file. Use `ez-vi copy -w [YOUR_PATH]`.
     '''
 )
-def copy(infile, save):
+def copy(infile, writefile):
     """
     To re-type an already pre-typed file. `ez-vi` will just rewrite the
     file as-is character by character.
     """
-    writing = file_parser(infile)
+    if not writefile:
+        writing = file_parser(infile)
+    else:
+        writing = file_parser(infile, name=writefile)
 
     ez_spawn(("vi",), writing)
     return None
