@@ -1,6 +1,6 @@
 import click
 
-from ez_vi.funcmodule import ez_spawn, yaml_parser
+from ez_vi.funcmodule import ez_spawn, yaml_parser, file_parser
 
 
 @click.group()
