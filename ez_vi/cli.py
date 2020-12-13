@@ -34,6 +34,12 @@ def copy(infile, save):
     :param save: The path to save the newly typed file.
     :return: None
     """
+    writing = file_parser(infile)
+
+    ez_spawn(("vi",), writing)
+    return None
+
+
 
 
 
