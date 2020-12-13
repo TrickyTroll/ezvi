@@ -116,7 +116,6 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
         tty.tcsetattr(STDIN_FILENO, tty.TCSAFLUSH, mode)
     os.close(master_fd)
     # wait for completion and return exit status
-    print(all_written)
     return os.waitpid(pid, 0)[1]
 
 
@@ -485,7 +484,7 @@ def file_parser(stream):
     file = stream.readlines()
     for line in file:
         to_return.append(write_chars(line))
-    to_return.append(quit_editor())
+    to_return.append(force_quit_editor())
     
     return to_return
 
