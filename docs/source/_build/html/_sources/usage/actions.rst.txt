@@ -1,4 +1,5 @@
 Available actions
 =================
 
-.. autofunction:: funcmodule.ez_spawn
+.. automodule:: ez-vi
+    :members:
