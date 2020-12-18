@@ -1,6 +1,5 @@
 import click
-
-from funcmodule import *
+from .funcmodule import *
 
 
 @click.group()
@@ -14,7 +13,6 @@ def app():
     "infile",
     type=click.File('r'),
 )
-
 @click.option(
     "-w",
     "--writefile",
@@ -43,7 +41,6 @@ def text(infile, writefile):
     "config",
     type=click.File('r'),
 )
-
 def yaml(config):
     """To use a YAML config file as input."""
 
@@ -54,6 +51,7 @@ def yaml(config):
             writing.append(item[key])
 
     ez_spawn(("vi",), writing)
+
 
 app.add_command(yaml)
 app.add_command(text)
