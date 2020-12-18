@@ -254,6 +254,7 @@ def quit_editor():
 
     return to_write
 
+
 def force_quit_editor():
     """To force quit the editor.
 

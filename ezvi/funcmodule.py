@@ -140,7 +140,6 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
     return written
 
 
-
 #######################################################################
 #                            YAML parsing                             #
 #######################################################################
@@ -194,7 +193,6 @@ def file_parser(stream, name=""):
     :rtype: list
     """
 
-
     to_return = []
 
     file = stream.readlines()
@@ -208,7 +206,7 @@ def file_parser(stream, name=""):
             raise Exception("{} already exists.".format(name))
         to_return.append(write_file(name))
         to_return.append(quit_editor())
-    
+
     return to_return
 
 #######################################################################
