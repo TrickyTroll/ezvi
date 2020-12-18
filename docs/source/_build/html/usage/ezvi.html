@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ezvi package &#8212; EZ-VI  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="ezvi package" href="actions.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="ezvi-package">
+<h1>ezvi package<a class="headerlink" href="#ezvi-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ezvi-cli-module">
+<h2>ezvi.cli module<a class="headerlink" href="#ezvi-cli-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-ezvi.funcmodule">
+<span id="ezvi-funcmodule-module"></span><h2>ezvi.funcmodule module<a class="headerlink" href="#module-ezvi.funcmodule" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="ezvi.funcmodule.ez_encode_str">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">ez_encode_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_encode</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#ezvi.funcmodule.ez_encode_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes a <cite>str</cite> per character and puts them into a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>to_encode</strong> (<em>str</em>) – The string that has to be encoded.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of encoded chars. Encodes in UTF-8</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.ez_read">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">ez_read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fd</span></em><span class="sig-paren">)</span> &#x2192; bytes<a class="headerlink" href="#ezvi.funcmodule.ez_read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard read function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>fd</strong> (<em>int</em>) – File descriptor.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bytes</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Up to 1024 bytes that have been read from <cite>fd</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.ez_spawn">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">ez_spawn</code><span class="sig-paren">(</span><em class="sig-param">argv</em>, <em class="sig-param">instructions</em>, <em class="sig-param">master_read=&lt;function ez_read&gt;</em>, <em class="sig-param">stdin_read=&lt;function ez_read&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.ez_spawn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spawns a process
+To spawn the process. Heavily inspired from Python’s <cite>pty</cite>
+module. <cite>ez_spawn()</cite> should only be used once per file that
+needs to be edited. This function can write a whole text file
+following the instructions dictionary and executing those
+instructions using <cite>ez_copy()</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>argv</strong> (<em>tuple</em>) – First element is the program to run. Other elements</p>
+</dd>
+</dl>
+<p>are the arguments passed to the program.
+:type instructions: list
+:param instructions: Contains all the instructions that will be
+passed to Vi. Its contents should have been created using the
+“Vi tools”.
+:type master_read: function
+:param master_read: The function that will be used to read
+info from the master’s file descriptor.
+:type stdin_read: function
+:param stdin_read: The function that will be used to read
+info from the master’s file descriptor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Exit status</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.ez_write">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">ez_write</code><span class="sig-paren">(</span><em class="sig-param">master_fd</em>, <em class="sig-param">to_write</em>, <em class="sig-param">master_read=&lt;function ez_read&gt;</em>, <em class="sig-param">stdin_read=&lt;function ez_read&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.ez_write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes every char in <cite>to_write</cite> to <cite>master_fd</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>master_fd</strong> (<em>int</em>) – Master’s file descriptor.</p></li>
+<li><p><strong>to_write</strong> (<em>list</em>) – List of encoded chars that will be</p></li>
+</ul>
+</dd>
+</dl>
+<p>written to <cite>master_fd</cite>.
+:type master_read: function
+:param master_read: The function that will be used to read
+info from the master’s file descriptor.
+:type stdin_read: function
+:param stdin_read: The function that will be used to read
+from STDIN (if the user wants to write to the program).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of all chars that have been written.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.file_parser">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">file_parser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.file_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>To parse a pre-typed text file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stream</strong> (<em>textIO</em>) – The stream of text to parse.</p></li>
+<li><p><strong>save</strong> (<em>str</em>) – Where the file should be saved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The parsed text.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.find_replace">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">find_replace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">old</span></em>, <em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.find_replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>To find <cite>old</cite> on the current line and replaces it with <cite>new</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.force_quit_editor">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">force_quit_editor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.force_quit_editor" title="Permalink to this definition">¶</a></dt>
+<dd><p>To force quit the editor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.goto_column">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">goto_column</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">column_num</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.goto_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>To move the cursor to <cite>column_num</cite> on the current line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.goto_line">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">goto_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line_num</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.goto_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To move the cursor to <cite>line_num</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.new_line">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">new_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">amount</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.new_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Types a new line.
+This also moves the cursor to the beginning of the new line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.new_line_over">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">new_line_over</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.new_line_over" title="Permalink to this definition">¶</a></dt>
+<dd><p>To create a new line over the cursor
+This also moves the cursor to the beginning of the new line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.quit_editor">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">quit_editor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.quit_editor" title="Permalink to this definition">¶</a></dt>
+<dd><p>To quit the editor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.replace">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">replace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">end</span></em>, <em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>To replace from <cite>start</cite> to <cite>end</cite> on the current line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.replace_line">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">replace_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.replace_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To replace the whole line with <cite>new</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_after_char">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_after_char</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_after_char" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> after the cursor’s position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_after_line">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_after_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_after_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> at the end of the line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_after_word">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_after_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_after_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> after <cite>thing</cite>. <cite>thing</cite> could be line, word or char.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_before_char">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_before_char</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_before_char" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> before the cursor’s position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_before_line">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_before_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_before_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> at the end of the line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_before_word">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_before_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_before_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> before <cite>thing</cite>. <cite>thing</cite> could be line, word or char.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_chars">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_chars</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_chars" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> to the file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_file">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>To write the contents to <cite>filename</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.write_line">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">write_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.funcmodule.write_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> create a new line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.funcmodule.yaml_parser">
+<code class="sig-prename descclassname">ezvi.funcmodule.</code><code class="sig-name descname">yaml_parser</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stream</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#ezvi.funcmodule.yaml_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a YAML file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>stream</strong> (<em>textIO</em>) – A stream of text to be parsed.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The parsed yaml file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ezvi">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ezvi" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">EZ-VI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">ezvi package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ezvi package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ezvi-cli-module">ezvi.cli module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezvi.funcmodule">ezvi.funcmodule module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezvi">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="actions.html" title="previous chapter">ezvi package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, TrickyTroll.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/usage/ezvi.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

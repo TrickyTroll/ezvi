@@ -1,0 +1,29 @@
+ezvi package
+============
+
+Submodules
+----------
+
+ezvi.cli module
+---------------
+
+.. automodule:: ezvi.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+ezvi.funcmodule module
+----------------------
+
+.. automodule:: ezvi.funcmodule
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: ezvi
+   :members:
+   :undoc-members:
+   :show-inheritance:
