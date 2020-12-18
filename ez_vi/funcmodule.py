@@ -1,5 +1,4 @@
 import os
-import magic
 import pty
 import time
 from typing import Dict, Any, Callable
