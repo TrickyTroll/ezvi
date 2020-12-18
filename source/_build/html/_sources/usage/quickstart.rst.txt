@@ -1,6 +1,8 @@
 Quickstart
 ==========
 
-You can easily start using ``EZ-VI`` by using the ``copy`` command. ``copy`` is 
-only going to re-type a premade file.
+After installing this program, you can easily start using ``EZ-VI`` by using the
+``text`` command. ``text`` is only going to re-type a premade text file. It can
+be any text file. From configuration files to programs, it does not matter as
+long as its a text file.
 
