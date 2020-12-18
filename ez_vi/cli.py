@@ -21,10 +21,10 @@ def app():
     type=str,
     help='''\
     To save the newly created file. 
-    Use `ez-vi copy -w [NEW_PATH] [PATH_TO_EXISTING_FILE]`.
+    Use `ez-vi text -w [NEW_PATH] [PATH_TO_EXISTING_FILE]`.
     '''
 )
-def copy(infile, writefile):
+def text(infile, writefile):
     """
     To re-type an already pre-typed file. `ez-vi` will just rewrite the
     file as-is character by character.
@@ -38,16 +38,13 @@ def copy(infile, writefile):
     return None
 
 
-
-
-
 @click.command()
 @click.argument(
     "config",
     type=click.File('r'),
 )
 
-def script(config):
+def yaml(config):
     """To use a YAML config file as input."""
 
     parsed = yaml_parser(config)
@@ -58,8 +55,15 @@ def script(config):
 
     ez_spawn(("vi",), writing)
 
-app.add_command(script)
-app.add_command(copy)
+@click.command()
+@click.argument(
+    "check",
+    type = click.File("r"),
+)
+
+app.add_command(yaml)
+app.add_command(text)
+app.add_command(check_text)
 
 if __name__ == "__main__":
     app()

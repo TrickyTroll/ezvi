@@ -1,4 +1,5 @@
 import os
+import magic
 import pty
 import time
 from typing import Dict, Any, Callable
@@ -498,7 +499,6 @@ def file_parser(stream, name=""):
         to_return.append(quit_editor())
     
     return to_return
-
 
 #######################################################################
 #                      Searching/editing tools                        #
