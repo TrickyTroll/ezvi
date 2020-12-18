@@ -1,5 +1,5 @@
 import click
-from .funcmodule import file_parser, ez_spawn, yaml_parser
+from ezvi import funcmodule
 
 
 @click.group()
@@ -28,11 +28,11 @@ def text(infile, writefile):
     file as-is character by character.
     """
     if not writefile:
-        writing = file_parser(infile)
+        writing = funcmodule.file_parser(infile)
     else:
-        writing = file_parser(infile, name=writefile)
+        writing = funcmodule.file_parser(infile, name=writefile)
 
-    ez_spawn(("vi",), writing)
+    funcmodule.ez_spawn(("vi",), writing)
     return None
 
 
@@ -44,17 +44,17 @@ def text(infile, writefile):
 def yaml(config):
     """To use a YAML config file as input."""
 
-    parsed = yaml_parser(config)
+    parsed = funcmodule.yaml_parser(config)
     writing = []
     for item in parsed:
         for key in item:
             writing.append(item[key])
 
-    ez_spawn(("vi",), writing)
+    funcmodule.ez_spawn(("vi",), writing)
 
 
 app.add_command(yaml)
 app.add_command(text)
 
-if __name__ == "__main__":
+def main():
     app()

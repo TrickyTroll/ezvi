@@ -3,7 +3,7 @@ import pty
 import time
 from typing import Dict, Any, Callable
 from pathlib import Path
-from .tools import *
+from ezvi import tools
 import yaml
 import tty
 from select import select
@@ -154,7 +154,7 @@ def yaml_parser(stream) -> list:
     :return: The parsed yaml file.
     """
 
-    available = [key for key, value in all_tools.items()]
+    available = [key for key, value in tools.all_tools.items()]
 
     parsed = yaml.safe_load(stream)
     for instruction in parsed:
@@ -165,9 +165,9 @@ def yaml_parser(stream) -> list:
             if key in available:
                 # Removing None types from dict.
                 if instruction[key] is not None:
-                    instruction[key] = (all_tools[key](value))
+                    instruction[key] = (tools.all_tools[key](value))
                 else:
-                    instruction[key] = (all_tools[key]())
+                    instruction[key] = (tools.all_tools[key]())
             else:
                 raise NotImplementedError(key + " does not exist.")
 
@@ -197,15 +197,15 @@ def file_parser(stream, name=""):
 
     file = stream.readlines()
     for line in file:
-        to_return.append(write_chars(line))
+        to_return.append(tools.write_chars(line))
 
     if name == "":
-        to_return.append(force_quit_editor())
+        to_return.append(tools.force_quit_editor())
     else:
         if Path(name).is_file():
             raise Exception("{} already exists.".format(name))
-        to_return.append(write_file(name))
-        to_return.append(quit_editor())
+        to_return.append(tools.write_file(name))
+        to_return.append(tools.quit_editor())
 
     return to_return
 
