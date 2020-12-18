@@ -61,55 +61,6 @@ A configuration file is just a yaml file that will be parsed using [PyYAML](http
 
 A `-` must precede every action.
 
-### Available actions
-
-#### Typing tools
-
-**Every typing tool presses escape after typing.** This ensures that every other command can be used without adding unexpected characters to the file.
-
-##### `write_chars` 
-
-Usage:
-```yaml
-- write_chars: "snake"
-```
-
-`write_chars` will type the passed string after the cursor position. From Vi’s command mode, it types `a` to insert after and then types the string.
-
-##### `write_line`
-
-Usage:
-```yaml
-- write_line: "Python is fun."
-```
-
-`write_line` is similar to `write_chars`, except it also presses `enter` after typing the passed string.
-
-##### `new_line`
-
-Usage:
-```yaml
-- new_line: 2
-```
-
-`new_line` inserts a certain amount of new lines to the file. From Vi’s command mode, `EZ-VI` first presses `o`. This ensures that the current line won’t be split even if the cursor is not at the end of the line.
-
-##### `new_line_over`
-
-Usage:
-```yaml
-- new_line_over:
-```
-
-`new_line_over` inserts *one* line over the current cursor position. I
-## Imported functions
-
-EZ-VI
-
-
-
-
-
 ## Development
 
 This package is still in alpha. Not much testing has been done and many things could still change.  To see the latest commit, go check the [latest](https://github.com/TrickyTroll/EZ-VI/tree/latest) branch.
