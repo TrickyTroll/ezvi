@@ -37,8 +37,227 @@
 <div class="section" id="vi-tools">
 <h2>Vi tools<a class="headerlink" href="#vi-tools" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="ezvi-tools-module">
-<h2>ezvi.tools module<a class="headerlink" href="#ezvi-tools-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ezvi.tools">
+<span id="ezvi-tools-module"></span><h2>ezvi.tools module<a class="headerlink" href="#module-ezvi.tools" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="ezvi.tools.ez_encode_str">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">ez_encode_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_encode</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#ezvi.tools.ez_encode_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encodes a <cite>str</cite> per character and puts them into a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>to_encode</strong> (<em>str</em>) – The string that has to be encoded.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of encoded chars. Encodes in UTF-8</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.find_replace">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">find_replace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">old</span></em>, <em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.find_replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>To find <cite>old</cite> on the current line and replaces it with <cite>new</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.force_quit_editor">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">force_quit_editor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.force_quit_editor" title="Permalink to this definition">¶</a></dt>
+<dd><p>To force quit the editor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.goto_column">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">goto_column</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">column_num</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.goto_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>To move the cursor to <cite>column_num</cite> on the current line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.goto_line">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">goto_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line_num</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.goto_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To move the cursor to <cite>line_num</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.new_line">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">new_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">amount</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.new_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Types a new line.
+This also moves the cursor to the beginning of the new line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.new_line_over">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">new_line_over</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.new_line_over" title="Permalink to this definition">¶</a></dt>
+<dd><p>To create a new line over the cursor
+This also moves the cursor to the beginning of the new line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.quit_editor">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">quit_editor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.quit_editor" title="Permalink to this definition">¶</a></dt>
+<dd><p>To quit the editor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.replace">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">replace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span></em>, <em class="sig-param"><span class="n">end</span></em>, <em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>To replace from <cite>start</cite> to <cite>end</cite> on the current line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.replace_line">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">replace_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.replace_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To replace the whole line with <cite>new</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_after_char">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_after_char</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_after_char" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> after the cursor’s position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_after_line">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_after_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_after_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> at the end of the line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_after_word">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_after_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_after_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> after <cite>thing</cite>. <cite>thing</cite> could be line, word or char.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_before_char">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_before_char</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_before_char" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> before the cursor’s position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_before_line">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_before_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_before_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> at the end of the line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_before_word">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_before_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_before_word" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> before <cite>thing</cite>. <cite>thing</cite> could be line, word or char.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_chars">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_chars</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#ezvi.tools.write_chars" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <code class="docutils literal notranslate"><span class="pre">to_write</span></code> to the file.</p>
+<p>Usage:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_chars</span><span class="p">:</span> <span class="s">&quot;snake&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">write_chars</span></code> will type the passed string after the cursor position. 
+From Vi’s command mode, it types <cite>a</cite> to insert after and then types the 
+string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_file">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>To write the contents to <cite>filename</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ezvi.tools.write_line">
+<code class="sig-prename descclassname">ezvi.tools.</code><code class="sig-name descname">write_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">to_write</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ezvi.tools.write_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>To type <cite>to_write</cite> create a new line</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 <div class="section" id="module-ezvi">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ezvi" title="Permalink to this headline">¶</a></h2>
@@ -68,7 +287,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Available actions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#vi-tools">Vi tools</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#ezvi-tools-module">ezvi.tools module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezvi.tools">ezvi.tools module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-ezvi">Module contents</a></li>
 </ul>
 </li>

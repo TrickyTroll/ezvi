@@ -31,10 +31,32 @@ def ez_encode_str(to_encode: str) -> list:
 
 # Writing
 
-def write_chars(to_write):
-    """To type `to_write` to the file.
+def write_chars(to_write) -> list:
+    """To type ``to_write`` to the file.
+
+    ``write_chars`` will type the passed string after the cursor position. 
+    From Vi’s command mode, it types ``a`` to insert after and then types the 
+    string.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      - write_chars: "snake"
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_chars("snake")
+    
+    :type to_write: str
+    :param to_write: The characters to write.
 
     :rtype: list
+    :return: A list of encoded characters. These characters can be directly interpreted by ``Vi``.
     """
 
     to_write = "a" + to_write + chr(27)
