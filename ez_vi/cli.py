@@ -55,13 +55,6 @@ def yaml(config):
 
     ez_spawn(("vi",), writing)
 
-@click.command()
-@click.argument(
-    "check",
-    type = click.File("r"),
-)
-
-app.add_command(yaml)
 app.add_command(text)
 app.add_command(check_text)
 
