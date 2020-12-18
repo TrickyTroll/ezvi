@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ez-vi"
+name = "ezvi"
 version = "0.1.0"
 description = "Automated typing in the Vi editor."
 license = "MIT"
@@ -33,4 +33,4 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-ez-vi = "ez_vi.cli:main"
+ezvi = "ez_vi.cli:main"
