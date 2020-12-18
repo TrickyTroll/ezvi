@@ -1,5 +1,6 @@
 import unittest
-import ez_vi.funcmodule as funcmodule
+import ezvi.funcmodule as funcmodule
+import ezvi.tools as tools
 
 # Should probably use hypothesis if this gets any bigger.
 
@@ -7,7 +8,7 @@ to_write = {"insert":"i",
             "text":"foooo",
             "newline":"\n",
             "escape":chr(27)}
-
+# TODO: Need to update tests.
 class TestEncode(unittest.TestCase):
 
     def test_returns_dict(self):
