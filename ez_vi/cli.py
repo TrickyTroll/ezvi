@@ -55,8 +55,8 @@ def yaml(config):
 
     ez_spawn(("vi",), writing)
 
+app.add_command(yaml)
 app.add_command(text)
-app.add_command(check_text)
 
 if __name__ == "__main__":
     app()
