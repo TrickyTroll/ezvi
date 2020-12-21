@@ -9,6 +9,7 @@ ezvi.tools module
 
 .. automodule:: ezvi.tools
    :members:
+   :exclude-members: ez_encode_str
    :undoc-members:
    :show-inheritance:
 
