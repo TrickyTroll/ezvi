@@ -50,13 +50,13 @@ def write_chars(to_write) -> list:
 
     .. code-block:: python
 
-      ezvi.tools.write_chars("snake")
+      ezvi.tools.write_chars("snek")
     
     :type to_write: str
     :param to_write: The characters to write.
 
     :rtype: list
-    :return: A list of encoded characters. These characters can be directly interpreted by ``Vi``.
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     to_write = "a" + to_write + chr(27)
@@ -66,9 +66,31 @@ def write_chars(to_write) -> list:
 
 
 def write_line(to_write):
-    """To type `to_write` create a new line
+    """To type `to_write` and create a new line.
+
+    Starts typing after the current cursor position by pressing
+    ``a`` from the command mode. ``to_write`` is then typed and
+    a new line is created. 
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+    
+      -write_line("Python is fun.")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_line("Python is fun.")
+
+    :type to_write: str
+    :param to_write: The characters to write.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     to_write = "a" + to_write + "\n" + chr(27)
@@ -78,13 +100,40 @@ def write_line(to_write):
 
 
 def new_line(amount):
-    """Types a new line.
-    This also moves the cursor to the beginning of the new line.
+    """Creates an ``amount`` of new lines.
+
+    ``new_line`` inserts a certain amount of new lines to the file. 
+    From Vi’s command mode, ``ezvi`` first presses ``o``. This ensures 
+    that the current line won’t be split even if the cursor is not 
+    at the end of the line.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+    
+      -new_line(3)
+
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.new_line(3)
+
+    :type amount: int
+    :param amount: The amount of new lines to create.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
+
     if type(amount) != int:
-        amount = int(amount)
+        try:
+            amount = int(amount)
+        except TypeError:
+            amount = 1            
 
     to_write = "o" + "\n" * (amount-1) + chr(27)
     to_write = ez_encode_str(to_write)
