@@ -174,11 +174,12 @@ def new_line_over():
 
 
 def write_after_word(to_write):
-    """To write ``to_write`` after the current word
+    """To write ``to_write`` after the current word.
 
     This function uses ``e`` from the command mode to go to the end
-    of the line
-
+    of the word. ``to_write`` is then written after the end of the
+    word using the ``a`` command. **This function does not add a
+    space to the begining of ``to_write``.**
 
     Usage:
 
@@ -186,25 +187,21 @@ def write_after_word(to_write):
 
     .. code-block:: yaml
 
-      -new_line(3)
-
+      -write_after_word(" General Kenobi.")
 
     `Using the API:`
 
     .. code-block:: python
 
-      ezvi.tools.new_line(3)
+      ezvi.tools.write_after_word(" General Kenobi.")
 
-    :type amount: int
-    :param amount: The amount of new lines to create.
+    :type to_write: str
+    :param to_write: What to write after the word.
 
     :rtype: list
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
-    """To type `to_write` after `thing`. `thing` could be line, word or char.
 
-    :rtype: list
-    """
     prepend = "e" + "a"
     append = chr(27)
     to_write = prepend + to_write + append
@@ -214,9 +211,32 @@ def write_after_word(to_write):
 
 
 def write_after_line(to_write):
-    """To type `to_write` at the end of the line.
+    """To write ``to_write`` after the current line.
+
+    This function uses ``$`` from the command mode to go to the 
+    end of the line. ``to_write`` is then written after the cursor
+    position using the ``a`` command. **This function does not add a
+    space to the begining of ``to_write``.**
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -write_after_line(" General Kenobi.")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_after_line(" General Kenobi.")
+
+    :type to_write: str
+    :param to_write: What to write after the line.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     prepend = "$" + "a"
@@ -228,9 +248,30 @@ def write_after_line(to_write):
 
 
 def write_after_char(to_write):
-    """To type `to_write` after the cursor's position.
+    """To write ``to_write`` after the cursor's position (current char).
+
+    ``to_write`` is written after the cursor
+    position using the ``a`` command. 
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -write_after_char("Greetings!")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_after_char("Greetings!")
+
+    :type to_write: str
+    :param to_write: What to write after the cursor.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     prepend = "a"
