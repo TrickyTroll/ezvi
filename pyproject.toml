@@ -4,7 +4,7 @@ version = "0.1.2"
 description = "Automated typing in the Vi editor."
 license = "MIT"
 readme = "README.md"
-authors = ["TripckyTroll <tricky@beon.ca>"]
+authors = ["TrickyTroll <tricky@beon.ca>"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "License :: OSI Approved :: MIT License",
