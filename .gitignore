@@ -133,3 +133,7 @@ dmypy.json
 
 # vscode
 .vscode 
+
+# vi
+
+*.swp
