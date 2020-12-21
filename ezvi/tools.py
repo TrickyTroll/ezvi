@@ -283,12 +283,34 @@ def write_after_char(to_write):
 
 
 def write_before_word(to_write):
-    """To type `to_write` before `thing`. `thing` could be line, word or char.
+    """To write ``to_write`` before the current word.
+
+    ``write_before_word`` uses ``b`` from the command mode to move
+    the cursor to the begining of the current word. 
+    position using the ``a`` command. 
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -write_after_char("Greetings!")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_after_char("Greetings!")
+
+    :type to_write: str
+    :param to_write: What to write after the cursor.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
-    prepend = "b" + "a"  # TODO: Replace "b" by something that works.
+    prepend = "b" + "i"  # TODO: Replace "b" by something that works.
     append = chr(27)
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
