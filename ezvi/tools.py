@@ -286,8 +286,9 @@ def write_before_word(to_write):
     """To write ``to_write`` before the current word.
 
     ``write_before_word`` uses ``b`` from the command mode to move
-    the cursor to the begining of the current word. 
-    position using the ``a`` command. 
+    the cursor to the begining of the current word. ``to_write`` is
+    then written before the cursor's position using the ``i`` 
+    command.
 
     Usage:
 
@@ -295,16 +296,16 @@ def write_before_word(to_write):
 
     .. code-block:: yaml
 
-      -write_after_char("Greetings!")
+      -write_before_word("Hello there.")
 
     `Using the API:`
 
     .. code-block:: python
 
-      ezvi.tools.write_after_char("Greetings!")
+      ezvi.tools.write_before_word("Hello there.")
 
     :type to_write: str
-    :param to_write: What to write after the cursor.
+    :param to_write: What to write before the current word.
 
     :rtype: list
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
@@ -319,9 +320,32 @@ def write_before_word(to_write):
 
 
 def write_before_line(to_write):
-    """To type `to_write` at the end of the line.
+    """To write ``to_write`` at the begining of the line.
+
+    ``write_before_line`` uses ``0`` from the command mode to move
+    the cursor to the begining of the current line. ``to_write`` is
+    then written before the cursor's position using the ``i`` 
+    command.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -write_before_line("Hello there.")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_before_line("Hello there.")
+
+    :type to_write: str
+    :param to_write: What to write before the current line.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     prepend = "0" + "i"
@@ -333,9 +357,32 @@ def write_before_line(to_write):
 
 
 def write_before_char(to_write):
-    """To type `to_write` before the cursor's position.
+    """To write ``to_write`` at the begining of the line.
+
+    ``write_before_line`` uses ``0`` from the command mode to move
+    the cursor to the begining of the current line. ``to_write`` is
+    then written before the cursor's position using the ``i`` 
+    command.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -write_before_line("Hello there.")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_before_line("Hello there.")
+
+    :type to_write: str
+    :param to_write: What to write before the current line.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     prepend = "i"
