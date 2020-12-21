@@ -51,7 +51,7 @@ def write_chars(to_write) -> list:
     .. code-block:: python
 
       ezvi.tools.write_chars("snek")
-    
+
     :type to_write: str
     :param to_write: The characters to write.
 
@@ -77,7 +77,7 @@ def write_line(to_write):
     `In a config file:`
 
     .. code-block:: yaml
-    
+
       -write_line("Python is fun.")
 
     `Using the API:`
@@ -112,7 +112,7 @@ def new_line(amount):
     `In a config file:`
 
     .. code-block:: yaml
-    
+
       -new_line(3)
 
 
@@ -133,7 +133,7 @@ def new_line(amount):
         try:
             amount = int(amount)
         except TypeError:
-            amount = 1            
+            amount = 1
 
     to_write = "o" + "\n" * (amount-1) + chr(27)
     to_write = ez_encode_str(to_write)
@@ -142,10 +142,29 @@ def new_line(amount):
 
 
 def new_line_over():
-    """To create a new line over the cursor
-    This also moves the cursor to the beginning of the new line.
+    """Creates a new line over the cursor.
+
+    The cursor is also moved to the begining of the new line. It is
+    not possible to create more than one new line over the cursor
+    at a time for now.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -new_line_over()
+
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.new_line_over()
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     to_write = "O" + chr(27)
@@ -155,6 +174,33 @@ def new_line_over():
 
 
 def write_after_word(to_write):
+    """To write ``to_write`` after the current word
+
+    This function uses ``e`` from the command mode to go to the end
+    of the line
+
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -new_line(3)
+
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.new_line(3)
+
+    :type amount: int
+    :param amount: The amount of new lines to create.
+
+    :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    """
     """To type `to_write` after `thing`. `thing` could be line, word or char.
 
     :rtype: list
