@@ -396,9 +396,30 @@ def write_before_char(to_write):
 # Movement
 
 def goto_line(line_num):
-    """To move the cursor to `line_num`.
+    """To go to a certain line.
+
+    This function uses the ``G`` command to move the cursor to
+    the begining of a certain line.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -goto_line(5)
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.goto_line(5)
+
+    :type line_num: int
+    :param line_num: The number of the line to move the cursor to.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     to_write = str(line_num) + "G"
@@ -408,9 +429,30 @@ def goto_line(line_num):
 
 
 def goto_column(column_num):
-    """To move the cursor to `column_num` on the current line.
+    """To go to a certain column.
+
+    This function uses the ``l`` command to move the cursor to
+    a certain column on the **current line**.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -goto_column(5)
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.goto_column(5)
+
+    :type column_num: int
+    :param column_num: The number of the column to move the cursor to.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     # This would be much cleaner if I could get the cursor's position.
