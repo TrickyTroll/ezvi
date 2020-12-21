@@ -465,9 +465,38 @@ def goto_column(column_num):
 # Replace functions
 
 def replace(start, end, new):
-    """To replace from `start` to `end` on the current line.
+    """Replaces text on the current line.
+
+    This function replaces from the column number ``start`` to the
+    column number ``end`` with the ``new`` text. ``replace`` moves
+    the cursor to the starting position and then uses the change 
+    command (``c``) to replace the text.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -replace(0, 4, "Snek")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.replace(0, 4, "Snek")
+
+    :type start: int
+    :param start: The number of the column to start replacing (inclusively).
+
+    :type end: int
+    :param end: The number of the column to stop replacing (exlusively).
+
+    :type new: str
+    :param new: The new text to type.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     movement = goto_column(start)
@@ -485,9 +514,31 @@ def find_replace(old, new):
 
 
 def replace_line(new):
-    """To replace the whole line with `new`.
+    """Replaces text on the current line.
+
+    ``replace`` moves the cursor to the begining of the line 
+    using ``0`` from the command mode and then uses command 
+    (``c$``) to replace the whole line.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -replace_line("Hello there.")
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.replace_line("General Kenobi.")
+
+    :type new: str
+    :param new: The new text to replace the current line.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     movement = "0"
