@@ -44,7 +44,7 @@ def write_chars(to_write) -> list:
 
     .. code-block:: yaml
 
-      - write_chars: "snake"
+      - write_chars: "snek"
 
     `Using the API:`
 
@@ -102,7 +102,7 @@ def write_line(to_write):
 def new_line(amount):
     """Creates an ``amount`` of new lines.
 
-    ``new_line`` inserts a certain amount of new lines to the file. 
+    ``new_line`` inserts a certain number of new lines to the file. 
     From Vi’s command mode, ``ezvi`` first presses ``o``. This ensures 
     that the current line won’t be split even if the cursor is not 
     at the end of the line.
@@ -123,7 +123,7 @@ def new_line(amount):
       ezvi.tools.new_line(3)
 
     :type amount: int
-    :param amount: The amount of new lines to create.
+    :param amount: The number of new lines to create.
 
     :rtype: list
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
@@ -144,7 +144,7 @@ def new_line(amount):
 def new_line_over():
     """Creates a new line over the cursor.
 
-    The cursor is also moved to the begining of the new line. It is
+    The cursor is also moved to the beginning of the new line. It is
     not possible to create more than one new line over the cursor
     at a time for now.
 
@@ -179,7 +179,7 @@ def write_after_word(to_write):
     This function uses ``e`` from the command mode to go to the end
     of the word. ``to_write`` is then written after the end of the
     word using the ``a`` command. **This function does not add a
-    space to the begining of ``to_write``.**
+    space to the beginning of ``to_write``.**
 
     Usage:
 
@@ -216,7 +216,7 @@ def write_after_line(to_write):
     This function uses ``$`` from the command mode to go to the 
     end of the line. ``to_write`` is then written after the cursor
     position using the ``a`` command. **This function does not add a
-    space to the begining of ``to_write``.**
+    space to the beginning of ``to_write``.**
 
     Usage:
 
@@ -286,7 +286,7 @@ def write_before_word(to_write):
     """To write ``to_write`` before the current word.
 
     ``write_before_word`` uses ``b`` from the command mode to move
-    the cursor to the begining of the current word. ``to_write`` is
+    the cursor to the beginning of the current word. ``to_write`` is
     then written before the cursor's position using the ``i`` 
     command.
 
@@ -320,10 +320,10 @@ def write_before_word(to_write):
 
 
 def write_before_line(to_write):
-    """To write ``to_write`` at the begining of the line.
+    """To write ``to_write`` at the beginning of the line.
 
     ``write_before_line`` uses ``0`` from the command mode to move
-    the cursor to the begining of the current line. ``to_write`` is
+    the cursor to the beginning of the current line. ``to_write`` is
     then written before the cursor's position using the ``i`` 
     command.
 
@@ -357,10 +357,10 @@ def write_before_line(to_write):
 
 
 def write_before_char(to_write):
-    """To write ``to_write`` at the begining of the line.
+    """To write ``to_write`` at the beginning of the line.
 
     ``write_before_line`` uses ``0`` from the command mode to move
-    the cursor to the begining of the current line. ``to_write`` is
+    the cursor to the beginning of the current line. ``to_write`` is
     then written before the cursor's position using the ``i`` 
     command.
 
@@ -399,7 +399,7 @@ def goto_line(line_num):
     """To go to a certain line.
 
     This function uses the ``G`` command to move the cursor to
-    the begining of a certain line.
+    the beginning of a certain line.
 
     Usage:
 
@@ -516,7 +516,7 @@ def find_replace(old, new):
 def replace_line(new):
     """Replaces text on the current line.
 
-    ``replace`` moves the cursor to the begining of the line 
+    ``replace`` moves the cursor to the beginning of the line 
     using ``0`` from the command mode and then uses command 
     (``c$``) to replace the whole line.
 
