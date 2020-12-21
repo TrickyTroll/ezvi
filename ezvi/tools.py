@@ -78,7 +78,7 @@ def write_line(to_write):
 
     .. code-block:: yaml
 
-      -write_line("Python is fun.")
+      -write_line: "Python is fun."
 
     `Using the API:`
 
@@ -113,7 +113,7 @@ def new_line(amount):
 
     .. code-block:: yaml
 
-      -new_line(3)
+      -new_line: 3
 
 
     `Using the API:`
@@ -154,7 +154,7 @@ def new_line_over():
 
     .. code-block:: yaml
 
-      -new_line_over()
+      -new_line_over:
 
 
     `Using the API:`
@@ -187,7 +187,7 @@ def write_after_word(to_write):
 
     .. code-block:: yaml
 
-      -write_after_word(" General Kenobi.")
+      -write_after_word: " General Kenobi."
 
     `Using the API:`
 
@@ -224,7 +224,7 @@ def write_after_line(to_write):
 
     .. code-block:: yaml
 
-      -write_after_line(" General Kenobi.")
+      -write_after_line: " General Kenobi."
 
     `Using the API:`
 
@@ -259,7 +259,7 @@ def write_after_char(to_write):
 
     .. code-block:: yaml
 
-      -write_after_char("Greetings!")
+      -write_after_char: "Greetings!"
 
     `Using the API:`
 
@@ -296,7 +296,7 @@ def write_before_word(to_write):
 
     .. code-block:: yaml
 
-      -write_before_word("Hello there.")
+      -write_before_word: "Hello there."
 
     `Using the API:`
 
@@ -333,7 +333,7 @@ def write_before_line(to_write):
 
     .. code-block:: yaml
 
-      -write_before_line("Hello there.")
+      -write_before_line: "Hello there."
 
     `Using the API:`
 
@@ -370,7 +370,7 @@ def write_before_char(to_write):
 
     .. code-block:: yaml
 
-      -write_before_line("Hello there.")
+      -write_before_line: "Hello there."
 
     `Using the API:`
 
@@ -407,7 +407,7 @@ def goto_line(line_num):
 
     .. code-block:: yaml
 
-      -goto_line(5)
+      -goto_line: 5
 
     `Using the API:`
 
@@ -440,7 +440,7 @@ def goto_column(column_num):
 
     .. code-block:: yaml
 
-      -goto_column(5)
+      -goto_column: 5
 
     `Using the API:`
 
@@ -478,7 +478,7 @@ def replace(start, end, new):
 
     .. code-block:: yaml
 
-      -replace(0, 4, "Snek")
+      -replace: 0, 4, "Snek"
 
     `Using the API:`
 
@@ -526,7 +526,7 @@ def replace_line(new):
 
     .. code-block:: yaml
 
-      -replace_line("Hello there.")
+      -replace_line: "Hello there."
 
     `Using the API:`
 
@@ -552,9 +552,30 @@ def replace_line(new):
 # Vi commands
 
 def write_file(filename):
-    """To write the contents to `filename`.
+    """Write the current buffer.
+
+    From the command mode, ``write_file`` uses Vi's ``:w`` command to
+    write the current buffer.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -write_file: "message.txt"
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.write_file("message.txt")
+
+    :type filename: str
+    :param filename: The path towards where to save the current buffer.
 
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     to_write = ":w " + filename + "\n"
@@ -566,7 +587,27 @@ def write_file(filename):
 def quit_editor():
     """To quit the editor.
 
+    From the command mode, ``quit_editor`` uses Vi's ``:q`` command to
+    quit the editor. Since Vi makes sure that the current buffer
+    is saved before quitting, ``force_quit_editor`` should be used instead
+    if the buffer must not be saved.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -quit_editor:
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.quit_editor()
+
     :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
     to_write = ":q" + "\n"
@@ -576,6 +617,28 @@ def quit_editor():
 
 
 def force_quit_editor():
+    """To force quit the editor.
+
+    From the command mode, ``force_quit_editor`` uses Vi's ``:q!`` command to
+    force quit the editor. All unsaved progress will be lost.
+
+    Usage:
+
+    `In a config file:`
+
+    .. code-block:: yaml
+
+      -force_quit_editor:
+
+    `Using the API:`
+
+    .. code-block:: python
+
+      ezvi.tools.force_quit_editor()
+
+    :rtype: list
+    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    """
     """To force quit the editor.
 
     :rtype: list
