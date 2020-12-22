@@ -128,7 +128,7 @@ def new_line(amount):
     :rtype: list
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
-
+    # TODO: should default to 1.
     if type(amount) != int:
         try:
             amount = int(amount)
