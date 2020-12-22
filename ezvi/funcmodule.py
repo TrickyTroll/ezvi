@@ -180,6 +180,22 @@ def yaml_parser(stream) -> list:
 
 # To convert an existing text file to some ez-vi commands.
 
+def path_check(name):
+    """To check if a path to save is valid.
+
+    :param name: The name of the file.
+    :type name: str
+
+    :raises Exception: If the path is not valid.
+
+    :return: True if the path is valid.
+    :rtype: bool
+    """
+    if Path(name).is_file():
+        raise Exception("{} already exists.".format(name))
+    else:
+        return True
+
 def file_parser(stream, name=""):
     """To parse a pre-typed text file.
 
@@ -202,12 +218,39 @@ def file_parser(stream, name=""):
     if name == "":
         to_return.append(tools.force_quit_editor())
     else:
-        if Path(name).is_file():
-            raise Exception("{} already exists.".format(name))
-        to_return.append(tools.write_file(name))
-        to_return.append(tools.quit_editor())
+        if path_check(name):
+            to_return.append(tools.write_file(name))
+            to_return.append(tools.quit_editor())
 
     return to_return
+
+def new_conf(stream, savepath):
+    """To create a new configuration file.
+
+    :param stream: The stream of text to create a config from.
+    :type stream: textIO
+    :param savepath: The path to save the new config file.
+    :type savepath: str
+    :return: None
+    :rtype: NoneType
+    """
+    
+    to_write = []
+
+    if path_check(savepath):
+        file = open(savepath, 'w')
+
+    for line in stream:
+        line = line.strip()
+        if not line:
+            to_append = "- new_line: "
+        else:
+            to_append = "- write_line: " + line
+        to_write.append(to_append)
+
+    file.writelines(to_write)
+
+    return None
 
 #######################################################################
 #                      Searching/editing tools                        #

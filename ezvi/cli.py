@@ -39,7 +39,7 @@ def text(infile, writefile):
 @click.command()
 @click.argument(
     "config",
-    type=click.File('r'),
+    type = click.File('r'),
 )
 def yaml(config):
     """To use a YAML config file as input."""
@@ -52,6 +52,31 @@ def yaml(config):
 
     funcmodule.ez_spawn(("vi",), writing)
 
+
+@click.command()
+@click.argument(
+    "infile",
+    type = click.File('r'),
+)
+@click.option(
+    "-s",
+    "--savepath",
+    type = str,
+    help = """\
+        To save the config file.
+        This is the path towards where the file will be saved.
+        """
+)
+def create_config(infile, savepath):
+    """To generate a config file."""
+    if savepath:
+        funcmodule.new_conf(infile, savepath)
+    else:
+        for line in infile:
+            to_echo = "- write_line: " + line
+            click.echo(to_echo)
+    
+    return None
 
 app.add_command(yaml)
 app.add_command(text)
