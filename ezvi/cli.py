@@ -73,11 +73,16 @@ def create_config(infile, savepath):
         funcmodule.new_conf(infile, savepath)
     else:
         for line in infile:
-            to_echo = "- write_line: " + line
+            line = line.strip()
+            if not line:
+                to_echo = "- new_line: "
+            else:
+                to_echo = "- write_line: " + line
             click.echo(to_echo)
     
     return None
 
+app.add_command(create_config)
 app.add_command(yaml)
 app.add_command(text)
 

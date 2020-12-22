@@ -245,7 +245,7 @@ def new_conf(stream, savepath):
         if not line:
             to_append = "- new_line: "
         else:
-            to_append = "- write_line: " + line
+            to_append = "- write_line: " + line + "\n"
         to_write.append(to_append)
 
     file.writelines(to_write)
