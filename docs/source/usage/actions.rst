@@ -62,8 +62,24 @@ Parsing tools
 Most of these tools have not been implemented yet. Please refer to the 
 `latest <https://github.com/TrickyTroll/EZ-VI/tree/latest>`_ branch.
 
-Creating a config file
-^^^^^^^^^^^^^^^^^^^^^^
+Generating a config file
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+To automatically generate a config file, you can simply use the ``generate-config``
+command. ``generate-config`` will create a config file to type the original
+file line by line.
+
+.. code-block::
+
+  ezvi generate-config [PATH/TO/FILE]
+
+- The ``-s`` option tells the program to write it's output to a file instead of
+  the terminal's standard output. The path towards where the file should be saved
+  must be provided.
+
+  .. code-block ::
+
+    ezvi generate-config -s [PATH/TO/SAVE] [PATH/TO/FILE]
 
 .. note:: A ``diff`` function will be added soon. This will allow for the creation
    of config file based upon the differences between two files. See the
