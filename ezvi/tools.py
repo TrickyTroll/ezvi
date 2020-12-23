@@ -99,7 +99,7 @@ def write_line(to_write):
     return to_write
 
 
-def new_line(amount):
+def new_line(amount=1):
     """Creates an ``amount`` of new lines.
 
     ``new_line`` inserts a certain number of new lines to the file. 
@@ -128,7 +128,6 @@ def new_line(amount):
     :rtype: list
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
-    # TODO: should default to 1.
     if type(amount) != int:
         try:
             amount = int(amount)
