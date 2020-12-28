@@ -83,7 +83,7 @@ Footnotes
 ---------
 
 .. [#] In fact, YAML is so easy to read that its web 
-  `https://yaml.org <page>`_ can follow the language's syntax and still be
+  `page <https://yaml.org>`_ can follow the language's syntax and still be
   easy to read.
 
 .. [#] For example, the ``write_line`` command takes the line to write as
