@@ -31,10 +31,10 @@ The syntax
 ^^^^^^^^^^
 
 The configuration file is parsed by ``ezvi`` as a Python
-`dictionnary <https://docs.python.org/3/tutorial/datastructures.html#dictionaries>`_.
+`dictionary <https://docs.python.org/3/tutorial/datastructures.html#dictionaries>`_.
 
-- To create a new command, preceed it with a dash and a space. This tells the 
-  YAML parser that the following item will be a dictionnary key.
+- To create a new command, precede it with a dash and a space. This tells the 
+  YAML parser that the following item will be a dictionary key.
 
 - Every command must be followed by a colon.
 
@@ -48,15 +48,24 @@ For example, if you want to write a very long line:
 
 .. code-block:: yaml
 
-  - write_line: This is a very very very long line. Since it will take more
+  - write_line: This is a very, very, very long line. Since it will take more
                 than 80 characters to write it and I want my file to look
                 clean, I will make sure to write it on more than just one
                 line.
         
 - Every new command must be created on a new line.
 
-You can put an indefinite amount of new commands one after the others.
+You can put an indefinite number of new commands one after the others.
 
+Typing the file
+^^^^^^^^^^^^^^^
+
+Once your configuration file is done and saved, you can easily tell ``ezvi``
+to run it with the ``yaml`` command.
+
+.. code-block::
+
+  ezvi yaml [PATH/TO/CONFIG]
 
 
 Why not JSON?

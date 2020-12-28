@@ -58,10 +58,10 @@ file. For more information, see the <a class="reference internal" href="actions.
 <div class="section" id="the-syntax">
 <h3>The syntax<a class="headerlink" href="#the-syntax" title="Permalink to this headline">¶</a></h3>
 <p>The configuration file is parsed by <code class="docutils literal notranslate"><span class="pre">ezvi</span></code> as a Python
-<a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionnary</a>.</p>
+<a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary</a>.</p>
 <ul class="simple">
-<li><p>To create a new command, preceed it with a dash and a space. This tells the
-YAML parser that the following item will be a dictionnary key.</p></li>
+<li><p>To create a new command, precede it with a dash and a space. This tells the
+YAML parser that the following item will be a dictionary key.</p></li>
 <li><p>Every command must be followed by a colon.</p></li>
 <li><p>If the command takes inputs <a class="footnote-reference brackets" href="#id3" id="id1">1</a>, add a space after the colon and then write
 your input.</p>
@@ -72,7 +72,7 @@ indented the same way as your first line.</p></li>
 </li>
 </ul>
 <p>For example, if you want to write a very long line:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">This is a very very very long line. Since it will take more</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">This is a very, very, very long line. Since it will take more</span>
               <span class="l l-Scalar l-Scalar-Plain">than 80 characters to write it and I want my file to look</span>
               <span class="l l-Scalar l-Scalar-Plain">clean, I will make sure to write it on more than just one</span>
               <span class="l l-Scalar l-Scalar-Plain">line.</span>
@@ -81,7 +81,15 @@ indented the same way as your first line.</p></li>
 <ul class="simple">
 <li><p>Every new command must be created on a new line.</p></li>
 </ul>
-<p>You can put an indefinite amount of new commands one after the others.</p>
+<p>You can put an indefinite number of new commands one after the others.</p>
+</div>
+<div class="section" id="typing-the-file">
+<h3>Typing the file<a class="headerlink" href="#typing-the-file" title="Permalink to this headline">¶</a></h3>
+<p>Once your configuration file is done and saved, you can easily tell <code class="docutils literal notranslate"><span class="pre">ezvi</span></code>
+to run it with the <code class="docutils literal notranslate"><span class="pre">yaml</span></code> command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ezvi</span> <span class="n">yaml</span> <span class="p">[</span><span class="n">PATH</span><span class="o">/</span><span class="n">TO</span><span class="o">/</span><span class="n">CONFIG</span><span class="p">]</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="why-not-json">
