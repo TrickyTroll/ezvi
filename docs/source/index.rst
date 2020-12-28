@@ -15,6 +15,7 @@ Welcome to EZ-VI's documentation!
 
    usage/installation
    usage/quickstart
+   usage/config
    usage/actions
 
 
