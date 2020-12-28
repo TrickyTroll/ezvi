@@ -64,7 +64,7 @@ A `-` must precede every action.
 ## Documentation
 
 For more in depth documentation, please refer to the 
-[Read the docs]()
+[Read the Docs](ezvi.rtfd.io)
 
 ## Development
 
