@@ -62,6 +62,8 @@ Parsing tools
 Most of these tools have not been implemented yet. Please refer to the 
 `latest <https://github.com/TrickyTroll/EZ-VI/tree/latest>`_ branch.
 
+.. _generateConfig:
+
 Generating a config file
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

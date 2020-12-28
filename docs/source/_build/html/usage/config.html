@@ -45,12 +45,50 @@ using a configuration file.</p>
 <a class="reference external" href="https://yaml.org/spec/1.2/spec.html">documentation</a>.</p>
 <div class="section" id="writing-a-config-file">
 <h2>Writing a config file<a class="headerlink" href="#writing-a-config-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="creating-the-file">
+<h3>Creating the file<a class="headerlink" href="#creating-the-file" title="Permalink to this headline">¶</a></h3>
+<p>The configuration file is just a text file with the <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file extension.
+You can create and edit a YAML file with the editor of your choice. You could
+also simply download the template
+<a class="reference external" href="https://github.com/TrickyTroll/ezvi/blob/main/example/config.yaml">file</a>
+from the Github repo and then edit it however you want.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">create-config</span></code> command can also be used to generate a basic configuration
+file. For more information, see the <a class="reference internal" href="actions.html#generateconfig"><span class="std std-ref">docs</span></a>.</p>
+</div>
+<div class="section" id="the-syntax">
+<h3>The syntax<a class="headerlink" href="#the-syntax" title="Permalink to this headline">¶</a></h3>
+<p>The configuration file is parsed by <code class="docutils literal notranslate"><span class="pre">ezvi</span></code> as a Python
+<a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionnary</a>.</p>
+<ul class="simple">
+<li><p>To create a new command, preceed it with a dash and a space. This tells the
+YAML parser that the following item will be a dictionnary key.</p></li>
+<li><p>Every command must be followed by a colon.</p></li>
+<li><p>If the command takes inputs <a class="footnote-reference brackets" href="#id3" id="id1">1</a>, add a space after the colon and then write
+your input.</p>
+<ul>
+<li><p>If your input spans over more than one line, make sure to keep the lines
+indented the same way as your first line.</p></li>
+</ul>
+</li>
+</ul>
+<p>For example, if you want to write a very long line:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">This is a very very very long line. Since it will take more</span>
+              <span class="l l-Scalar l-Scalar-Plain">than 80 characters to write it and I want my file to look</span>
+              <span class="l l-Scalar l-Scalar-Plain">clean, I will make sure to write it on more than just one</span>
+              <span class="l l-Scalar l-Scalar-Plain">line.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Every new command must be created on a new line.</p></li>
+</ul>
+<p>You can put an indefinite amount of new commands one after the others.</p>
+</div>
 </div>
 <div class="section" id="why-not-json">
 <h2>Why not JSON?<a class="headerlink" href="#why-not-json" title="Permalink to this headline">¶</a></h2>
 <p>While pretty standard and very popular, the JSON format is not very human
 friendly. It is harder to quickly find the right place to edit a parameter
-in a JSON file compared to YAML <a class="footnote-reference brackets" href="#id2" id="id1">1</a>.</p>
+in a JSON file compared to YAML <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">ezvi</span></code>’s configuration files are meant for humans. The goal is to make
 these files not only easy to create and read by a computer, but also easy
 to edit by someone who wants to quickly fix their automation.</p>
@@ -58,10 +96,15 @@ to edit by someone who wants to quickly fix their automation.</p>
 <div class="section" id="footnotes">
 <h2>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h2>
 <dl class="footnote brackets">
-<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
 <dd><p>In fact, YAML is so easy to read that its web
 <a class="reference external" href="page">https://yaml.org</a> can follow the language’s syntax and still be
 easy to read.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>For example, the <code class="docutils literal notranslate"><span class="pre">write_line</span></code> command takes the line to write as
+an argument. For more information on what commands are available and their
+inputs, see the <a class="reference internal" href="actions.html"><span class="doc">actions</span></a> section.</p>
 </dd>
 </dl>
 </div>

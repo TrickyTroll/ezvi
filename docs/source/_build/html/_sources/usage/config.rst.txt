@@ -15,6 +15,49 @@ If you still want to learn more about the format, please see the official
 Writing a config file
 ---------------------
 
+Creating the file
+^^^^^^^^^^^^^^^^^
+
+The configuration file is just a text file with the ``.yaml`` file extension.
+You can create and edit a YAML file with the editor of your choice. You could
+also simply download the template 
+`file <https://github.com/TrickyTroll/ezvi/blob/main/example/config.yaml>`_
+from the Github repo and then edit it however you want.
+
+The ``create-config`` command can also be used to generate a basic configuration
+file. For more information, see the :ref:`docs <generateConfig>`.
+
+The syntax
+^^^^^^^^^^
+
+The configuration file is parsed by ``ezvi`` as a Python
+`dictionnary <https://docs.python.org/3/tutorial/datastructures.html#dictionaries>`_.
+
+- To create a new command, preceed it with a dash and a space. This tells the 
+  YAML parser that the following item will be a dictionnary key.
+
+- Every command must be followed by a colon.
+
+- If the command takes inputs [#]_, add a space after the colon and then write
+  your input.
+
+  - If your input spans over more than one line, make sure to keep the lines
+    indented the same way as your first line.
+
+For example, if you want to write a very long line:
+
+.. code-block:: yaml
+
+  - write_line: This is a very very very long line. Since it will take more
+                than 80 characters to write it and I want my file to look
+                clean, I will make sure to write it on more than just one
+                line.
+        
+- Every new command must be created on a new line.
+
+You can put an indefinite amount of new commands one after the others.
+
+
 
 Why not JSON?
 -------------
@@ -33,3 +76,7 @@ Footnotes
 .. [#] In fact, YAML is so easy to read that its web 
   `https://yaml.org <page>`_ can follow the language's syntax and still be
   easy to read.
+
+.. [#] For example, the ``write_line`` command takes the line to write as
+  an argument. For more information on what commands are available and their
+  inputs, see the :doc:`actions <actions>` section.
