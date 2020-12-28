@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuration files &#8212; EZ-VI  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Available actions" href="actions.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="configuration-files">
+<h1>Configuration files<a class="headerlink" href="#configuration-files" title="Permalink to this headline">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">ezvi</span></code> can also type a file by following a configuration file. A
+configuration file is just a <a class="reference external" href="https://yaml.org">YAML</a> with certain
+directives that are understood by <code class="docutils literal notranslate"><span class="pre">ezvi</span></code>.</p>
+<p>No need to worry if you do not know anything about YAML. This page
+will tell you everything you need to know to get started with <code class="docutils literal notranslate"><span class="pre">ezvi</span></code>
+using a configuration file.</p>
+<p>If you still want to learn more about the format, please see the official
+<a class="reference external" href="https://yaml.org/spec/1.2/spec.html">documentation</a>.</p>
+<div class="section" id="writing-a-config-file">
+<h2>Writing a config file<a class="headerlink" href="#writing-a-config-file" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="creating-the-file">
+<h3>Creating the file<a class="headerlink" href="#creating-the-file" title="Permalink to this headline">¶</a></h3>
+<p>The configuration file is just a text file with the <code class="docutils literal notranslate"><span class="pre">.yaml</span></code> file extension.
+You can create and edit a YAML file with the editor of your choice. You could
+also simply download the template
+<a class="reference external" href="https://github.com/TrickyTroll/ezvi/blob/main/example/config.yaml">file</a>
+from the Github repo and then edit it however you want.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">create-config</span></code> command can also be used to generate a basic configuration
+file. For more information, see the <a class="reference internal" href="actions.html#generateconfig"><span class="std std-ref">docs</span></a>.</p>
+</div>
+<div class="section" id="the-syntax">
+<h3>The syntax<a class="headerlink" href="#the-syntax" title="Permalink to this headline">¶</a></h3>
+<p>The configuration file is parsed by <code class="docutils literal notranslate"><span class="pre">ezvi</span></code> as a Python
+<a class="reference external" href="https://docs.python.org/3/tutorial/datastructures.html#dictionaries">dictionary</a>.</p>
+<ul class="simple">
+<li><p>To create a new command, precede it with a dash and a space. This tells the
+YAML parser that the following item will be a dictionary key.</p></li>
+<li><p>Every command must be followed by a colon.</p></li>
+<li><p>If the command takes inputs <a class="footnote-reference brackets" href="#id3" id="id1">1</a>, add a space after the colon and then write
+your input.</p>
+<ul>
+<li><p>If your input spans over more than one line, make sure to keep the lines
+indented the same way as your first line.</p></li>
+</ul>
+</li>
+</ul>
+<p>For example, if you want to write a very long line:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">This is a very, very, very long line. Since it will take more</span>
+              <span class="l l-Scalar l-Scalar-Plain">than 80 characters to write it and I want my file to look</span>
+              <span class="l l-Scalar l-Scalar-Plain">clean, I will make sure to write it on more than just one</span>
+              <span class="l l-Scalar l-Scalar-Plain">line.</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Every new command must be created on a new line.</p></li>
+</ul>
+<p>You can put an indefinite number of new commands one after the others.</p>
+</div>
+<div class="section" id="typing-the-file">
+<h3>Typing the file<a class="headerlink" href="#typing-the-file" title="Permalink to this headline">¶</a></h3>
+<p>Once your configuration file is done and saved, you can easily tell <code class="docutils literal notranslate"><span class="pre">ezvi</span></code>
+to run it with the <code class="docutils literal notranslate"><span class="pre">yaml</span></code> command.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ezvi</span> <span class="n">yaml</span> <span class="p">[</span><span class="n">PATH</span><span class="o">/</span><span class="n">TO</span><span class="o">/</span><span class="n">CONFIG</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="why-not-json">
+<h2>Why not JSON?<a class="headerlink" href="#why-not-json" title="Permalink to this headline">¶</a></h2>
+<p>While pretty standard and very popular, the JSON format is not very human
+friendly. It is harder to quickly find the right place to edit a parameter
+in a JSON file compared to YAML <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ezvi</span></code>’s configuration files are meant for humans. The goal is to make
+these files not only easy to create and read by a computer, but also easy
+to edit by someone who wants to quickly fix their automation.</p>
+</div>
+<div class="section" id="footnotes">
+<h2>Footnotes<a class="headerlink" href="#footnotes" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>In fact, YAML is so easy to read that its web
+<a class="reference external" href="page">https://yaml.org</a> can follow the language’s syntax and still be
+easy to read.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>For example, the <code class="docutils literal notranslate"><span class="pre">write_line</span></code> command takes the line to write as
+an argument. For more information on what commands are available and their
+inputs, see the <a class="reference internal" href="actions.html"><span class="doc">actions</span></a> section.</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">EZ-VI</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#writing-a-config-file">Writing a config file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#why-not-json">Why not JSON?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#footnotes">Footnotes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="actions.html">Available actions</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="quickstart.html" title="previous chapter">Quickstart</a></li>
+      <li>Next: <a href="actions.html" title="next chapter">Available actions</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, TrickyTroll.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/usage/config.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
