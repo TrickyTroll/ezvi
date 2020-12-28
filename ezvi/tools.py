@@ -78,7 +78,7 @@ def write_line(to_write):
 
     .. code-block:: yaml
 
-      -write_line: "Python is fun."
+      - write_line: "Python is fun."
 
     `Using the API:`
 
@@ -113,7 +113,7 @@ def new_line(amount=1):
 
     .. code-block:: yaml
 
-      -new_line: 3
+      - new_line: 3
 
 
     `Using the API:`
@@ -153,7 +153,7 @@ def new_line_over():
 
     .. code-block:: yaml
 
-      -new_line_over:
+      - new_line_over:
 
 
     `Using the API:`
@@ -186,7 +186,7 @@ def write_after_word(to_write):
 
     .. code-block:: yaml
 
-      -write_after_word: " General Kenobi."
+      - write_after_word: " General Kenobi."
 
     `Using the API:`
 
@@ -223,7 +223,7 @@ def write_after_line(to_write):
 
     .. code-block:: yaml
 
-      -write_after_line: " General Kenobi."
+      - write_after_line: " General Kenobi."
 
     `Using the API:`
 
@@ -258,7 +258,7 @@ def write_after_char(to_write):
 
     .. code-block:: yaml
 
-      -write_after_char: "Greetings!"
+      - write_after_char: "Greetings!"
 
     `Using the API:`
 
@@ -295,7 +295,7 @@ def write_before_word(to_write):
 
     .. code-block:: yaml
 
-      -write_before_word: "Hello there."
+      - write_before_word: "Hello there."
 
     `Using the API:`
 
@@ -332,7 +332,7 @@ def write_before_line(to_write):
 
     .. code-block:: yaml
 
-      -write_before_line: "Hello there."
+      - write_before_line: "Hello there."
 
     `Using the API:`
 
@@ -369,7 +369,7 @@ def write_before_char(to_write):
 
     .. code-block:: yaml
 
-      -write_before_line: "Hello there."
+      - write_before_line: "Hello there."
 
     `Using the API:`
 
@@ -406,7 +406,7 @@ def goto_line(line_num):
 
     .. code-block:: yaml
 
-      -goto_line: 5
+      - goto_line: 5
 
     `Using the API:`
 
@@ -439,7 +439,7 @@ def goto_column(column_num):
 
     .. code-block:: yaml
 
-      -goto_column: 5
+      - goto_column: 5
 
     `Using the API:`
 
@@ -477,7 +477,7 @@ def replace(start, end, new):
 
     .. code-block:: yaml
 
-      -replace: 0, 4, "Snek"
+      - replace: 0, 4, "Snek"
 
     `Using the API:`
 
@@ -525,7 +525,7 @@ def replace_line(new):
 
     .. code-block:: yaml
 
-      -replace_line: "Hello there."
+      - replace_line: "Hello there."
 
     `Using the API:`
 
@@ -562,7 +562,7 @@ def write_file(filename):
 
     .. code-block:: yaml
 
-      -write_file: "message.txt"
+      - write_file: "message.txt"
 
     `Using the API:`
 
@@ -597,7 +597,7 @@ def quit_editor():
 
     .. code-block:: yaml
 
-      -quit_editor:
+      - quit_editor:
 
     `Using the API:`
 
@@ -627,7 +627,7 @@ def force_quit_editor():
 
     .. code-block:: yaml
 
-      -force_quit_editor:
+      - force_quit_editor:
 
     `Using the API:`
 
