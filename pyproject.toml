@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "ezvi"
-version = "0.1.5"
+version = "0.1.6"
 description = "Automated typing in the Vi editor."
 license = "MIT"
 readme = "README.md"
