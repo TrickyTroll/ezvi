@@ -1,9 +1,9 @@
-.. EZ-VI documentation master file, created by
+.. ezvi documentation master file, created by
    sphinx-quickstart on Sun Dec 13 19:09:01 2020.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to EZ-VI's documentation!
+Welcome to ezvi's documentation!
 =================================
 
 .. image:: ./img/ez_vi.svg

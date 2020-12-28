@@ -178,7 +178,7 @@ def yaml_parser(stream) -> list:
 #                       File comparison                               #
 #######################################################################
 
-# To convert an existing text file to some ez-vi commands.
+# To convert an existing text file to some ezvi commands.
 
 def path_check(name):
     """To check if a path to save is valid.

@@ -1,12 +1,12 @@
 Installation
 ============
 
-``EZ-VI`` is distributed as a `Pip package <https://pypi.org/project/ezvi/>`_. 
+``ezvi`` is distributed as a `Pip package <https://pypi.org/project/ezvi/>`_. 
 To install the program, simply run
 
 .. code-block:: bash 
 
-  pip install ez-vi
+  pip install ezvi
 
 This will install the package to your current environnement.
 

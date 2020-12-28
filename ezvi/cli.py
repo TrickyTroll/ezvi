@@ -19,12 +19,12 @@ def app():
     type=str,
     help='''\
     To save the newly created file. 
-    Use `ez-vi text -w [NEW_PATH] [PATH_TO_EXISTING_FILE]`.
+    Use `ezvi text -w [NEW_PATH] [PATH_TO_EXISTING_FILE]`.
     '''
 )
 def text(infile, writefile):
     """
-    To re-type an already pre-typed file. `ez-vi` will just rewrite the
+    To re-type an already pre-typed file. `ezvi` will just rewrite the
     file as-is character by character.
     """
     if not writefile:

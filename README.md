@@ -16,7 +16,7 @@ The package can be used via the `CLI`. `ezvi` functions can also be imported and
 
 ### The `CLI`
 
-There are two different ways of using `EZ-Vi` via the command line. 
+There are two different ways of using `ezvi` via the command line. 
 
 #### The `text` command 
 
