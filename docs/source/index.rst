@@ -6,6 +6,9 @@
 Welcome to EZ-VI's documentation!
 =================================
 
+.. image:: ./img/ez_vi.svg
+  :alt: The ezvi snek
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
