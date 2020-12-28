@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Available actions &#8212; EZ-VI  documentation</title>
+    <title>Available actions &#8212; ezvi  documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -79,7 +79,7 @@ if you are using multiple modules with methods which are named similarly.</p>
 force quit the editor. All unsaved progress will be lost.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-force_quit_editor</span><span class="p">:</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">force_quit_editor</span><span class="p">:</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -104,7 +104,7 @@ force quit the editor. All unsaved progress will be lost.</p>
 a certain column on the <strong>current line</strong>.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-goto_column</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">goto_column</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -132,7 +132,7 @@ a certain column on the <strong>current line</strong>.</p>
 the beginning of a certain line.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-goto_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">goto_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">5</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -162,7 +162,7 @@ that the current line won’t be split even if the cursor is not
 at the end of the line.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-new_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">new_line</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -191,7 +191,7 @@ not possible to create more than one new line over the cursor
 at a time for now.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-new_line_over</span><span class="p">:</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">new_line_over</span><span class="p">:</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -218,7 +218,7 @@ is saved before quitting, <code class="docutils literal notranslate"><span class
 if the buffer must not be saved.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-quit_editor</span><span class="p">:</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">quit_editor</span><span class="p">:</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -245,7 +245,7 @@ the cursor to the starting position and then uses the change
 command (<code class="docutils literal notranslate"><span class="pre">c</span></code>) to replace the text.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0, 4, &quot;Snek&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">replace</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">0, 4, &quot;Snek&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -278,7 +278,7 @@ using <code class="docutils literal notranslate"><span class="pre">0</span></cod
 (<code class="docutils literal notranslate"><span class="pre">c$</span></code>) to replace the whole line.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-replace_line</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">replace_line</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -306,7 +306,7 @@ using <code class="docutils literal notranslate"><span class="pre">0</span></cod
 position using the <code class="docutils literal notranslate"><span class="pre">a</span></code> command.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_after_char</span><span class="p">:</span> <span class="s">&quot;Greetings!&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_after_char</span><span class="p">:</span> <span class="s">&quot;Greetings!&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -336,7 +336,7 @@ position using the <code class="docutils literal notranslate"><span class="pre">
 space to the beginning of ``to_write``.</strong></p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_after_line</span><span class="p">:</span> <span class="s">&quot;</span><span class="nv"> </span><span class="s">General</span><span class="nv"> </span><span class="s">Kenobi.&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_after_line</span><span class="p">:</span> <span class="s">&quot;</span><span class="nv"> </span><span class="s">General</span><span class="nv"> </span><span class="s">Kenobi.&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -366,7 +366,7 @@ word using the <code class="docutils literal notranslate"><span class="pre">a</s
 space to the beginning of ``to_write``.</strong></p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_after_word</span><span class="p">:</span> <span class="s">&quot;</span><span class="nv"> </span><span class="s">General</span><span class="nv"> </span><span class="s">Kenobi.&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_after_word</span><span class="p">:</span> <span class="s">&quot;</span><span class="nv"> </span><span class="s">General</span><span class="nv"> </span><span class="s">Kenobi.&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -396,7 +396,7 @@ then written before the cursor’s position using the <code class="docutils lite
 command.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_before_line</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_before_line</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -426,7 +426,7 @@ then written before the cursor’s position using the <code class="docutils lite
 command.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_before_line</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_before_line</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -456,7 +456,7 @@ then written before the cursor’s position using the <code class="docutils lite
 command.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_before_word</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_before_word</span><span class="p">:</span> <span class="s">&quot;Hello</span><span class="nv"> </span><span class="s">there.&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -513,7 +513,7 @@ string.</p>
 write the current buffer.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_file</span><span class="p">:</span> <span class="s">&quot;message.txt&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_file</span><span class="p">:</span> <span class="s">&quot;message.txt&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -542,7 +542,7 @@ write the current buffer.</p>
 a new line is created.</p>
 <p>Usage:</p>
 <p><cite>In a config file:</cite></p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">-write_line</span><span class="p">:</span> <span class="s">&quot;Python</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">fun.&quot;</span>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">write_line</span><span class="p">:</span> <span class="s">&quot;Python</span><span class="nv"> </span><span class="s">is</span><span class="nv"> </span><span class="s">fun.&quot;</span>
 </pre></div>
 </div>
 <p><cite>Using the API:</cite></p>
@@ -567,7 +567,7 @@ a new line is created.</p>
 <div class="section" id="parsing-tools">
 <span id="parsing"></span><h2>Parsing tools<a class="headerlink" href="#parsing-tools" title="Permalink to this headline">¶</a></h2>
 <p>Most of these tools have not been implemented yet. Please refer to the
-<a class="reference external" href="https://github.com/TrickyTroll/EZ-VI/tree/latest">latest</a> branch.</p>
+<a class="reference external" href="https://github.com/TrickyTroll/ezvi/tree/latest">latest</a> branch.</p>
 <div class="section" id="generating-a-config-file">
 <span id="generateconfig"></span><h3>Generating a config file<a class="headerlink" href="#generating-a-config-file" title="Permalink to this headline">¶</a></h3>
 <p>To automatically generate a config file, you can simply use the <code class="docutils literal notranslate"><span class="pre">generate-config</span></code>
@@ -589,7 +589,7 @@ must be provided.</p>
 <p class="admonition-title">Note</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">diff</span></code> function will be added soon. This will allow for the creation
 of config file based upon the differences between two files. See the
-<a class="reference external" href="https://github.com/TrickyTroll/EZ-VI/tree/latest">latest</a> branch for the most
+<a class="reference external" href="https://github.com/TrickyTroll/ezvi/tree/latest">latest</a> branch for the most
 recent updates.</p>
 </div>
 </div>
@@ -611,7 +611,7 @@ recent updates.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">EZ-VI</a></h1>
+<h1 class="logo"><a href="../index.html">ezvi</a></h1>
 
 
 

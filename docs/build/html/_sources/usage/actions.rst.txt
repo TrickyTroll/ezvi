@@ -60,7 +60,7 @@ Parsing tools
 -------------
 
 Most of these tools have not been implemented yet. Please refer to the 
-`latest <https://github.com/TrickyTroll/EZ-VI/tree/latest>`_ branch.
+`latest <https://github.com/TrickyTroll/ezvi/tree/latest>`_ branch.
 
 .. _generateConfig:
 
@@ -85,7 +85,7 @@ file line by line.
 
 .. note:: A ``diff`` function will be added soon. This will allow for the creation
    of config file based upon the differences between two files. See the
-   `latest <https://github.com/TrickyTroll/EZ-VI/tree/latest>`_ branch for the most
+   `latest <https://github.com/TrickyTroll/ezvi/tree/latest>`_ branch for the most
    recent updates.
 
 Footnotes
