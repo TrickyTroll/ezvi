@@ -649,10 +649,6 @@ def force_quit_editor():
     :rtype: list
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
-    """To force quit the editor.
-
-    :rtype: list
-    """
 
     to_write = ":q!" + "\n"
     to_write = ez_encode_str(to_write)
