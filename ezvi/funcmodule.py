@@ -234,7 +234,6 @@ def new_conf(stream, savepath):
     :return: None
     :rtype: NoneType
     """
-    
     to_write = []
 
     if path_check(savepath):
@@ -250,7 +249,6 @@ def new_conf(stream, savepath):
 
     file.writelines(to_write)
 
-    return None
 
 #######################################################################
 #                      Searching/editing tools                        #
