@@ -1,3 +1,7 @@
+"""
+``funcmodule.py`` contains functions that are used to spawn and interact
+with a ``vi`` process.
+"""
 import os
 import pty
 import time

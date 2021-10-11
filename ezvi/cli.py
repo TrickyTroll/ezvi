@@ -1,3 +1,8 @@
+"""
+The CLI module. Contains every command used by ``ezvi``.
+No function other than the command line options should be
+defined in this module.
+"""
 import click
 from ezvi import funcmodule
 

@@ -1,3 +1,13 @@
+"""
+``tools.py`` contains functions used in the funcmodule to interact with
+the ``vi`` editor. Most functions can be mapped to existing ``vi``
+commands.
+
+This module is also where the API is documented. Each funcion's docstring
+contains documentation on how to use the function with the API and with
+the command line interface.
+"""
+
 #######################################################################
 #                       Character Encoding                            #
 #######################################################################
