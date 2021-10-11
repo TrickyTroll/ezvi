@@ -7,6 +7,7 @@ This module is also where the API is documented. Each funcion's docstring
 contains documentation on how to use the function with the API and with
 the command line interface.
 """
+from typing import List
 
 #######################################################################
 #                       Character Encoding                            #
@@ -21,9 +22,9 @@ def ez_encode_str(to_encode: str) -> list:
     :rtype: list
     :return: A list of encoded chars. Encodes in UTF-8
     """
-    to_return = []
+    to_return: List[bytes] = []
     for char in list(to_encode):
-        if type(char) != bytes:
+        if not isinstance(char, bytes):
             try:
                 to_return.append(char.encode("utf-8"))
             except AttributeError:
