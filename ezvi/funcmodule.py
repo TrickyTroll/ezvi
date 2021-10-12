@@ -149,7 +149,7 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
 #######################################################################
 
 def yaml_parser(stream) -> list:
-    """Loads a YAML file. 
+    """Loads a YAML file.
 
     :type stream: textIO
     :param stream: A stream of text to be parsed.
