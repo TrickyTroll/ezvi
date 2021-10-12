@@ -7,7 +7,7 @@ This module is also where the API is documented. Each funcion's docstring
 contains documentation on how to use the function with the API and with
 the command line interface.
 """
-from typing import List
+from typing import List, Dict, Callable, Any
 
 #######################################################################
 #                       Character Encoding                            #
@@ -656,7 +656,8 @@ def force_quit_editor():
     return to_write
 
 
-all_tools = {
+# TODO: Replace ``Any`` with something more accurate.
+all_tools: Dict[Any,Callable] = {
     write_chars.__name__: write_chars,
     write_line.__name__: write_line,
     new_line.__name__: new_line,
