@@ -97,7 +97,7 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
     return os.waitpid(pid, 0)[1]
 
 
-def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
+def ez_write(master_fd, to_write, master_read=ez_read):
     """Writes every char in `to_write` to `master_fd`.
 
     :type master_fd: int
@@ -118,7 +118,7 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
     written = []
     fds = [master_fd, STDIN_FILENO]
     while True:
-        rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
+        rfds, wfds, _ = select([fds[0]], [fds[1]], [])
         if master_fd in rfds:
             # This is required to see the program running.
             data = master_read(master_fd)
