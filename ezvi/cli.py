@@ -16,16 +16,16 @@ def app():
 @click.command()
 @click.argument(
     "infile",
-    type=click.File('r'),
+    type=click.File("r"),
 )
 @click.option(
     "-w",
     "--writefile",
     type=str,
-    help='''\
+    help="""\
     To save the newly created file. 
     Use `ezvi text -w [NEW_PATH] [PATH_TO_EXISTING_FILE]`.
-    '''
+    """,
 )
 def text(infile, writefile):
     """
@@ -44,7 +44,7 @@ def text(infile, writefile):
 @click.command()
 @click.argument(
     "config",
-    type = click.File('r'),
+    type=click.File("r"),
 )
 def yaml(config):
     """To use a YAML config file as input."""
@@ -61,16 +61,16 @@ def yaml(config):
 @click.command()
 @click.argument(
     "infile",
-    type = click.File('r'),
+    type=click.File("r"),
 )
 @click.option(
     "-s",
     "--savepath",
-    type = str,
-    help = """\
+    type=str,
+    help="""\
         To save the config file.
         This is the path towards where the file will be saved.
-        """
+        """,
 )
 def create_config(infile, savepath):
     """To generate a config file."""
@@ -84,12 +84,14 @@ def create_config(infile, savepath):
             else:
                 to_echo = "- write_line: " + line
             click.echo(to_echo)
-    
+
     return None
+
 
 app.add_command(create_config)
 app.add_command(yaml)
 app.add_command(text)
+
 
 def main():
     app()

@@ -21,8 +21,9 @@ CHILD = 0
 #                         Read function                               #
 #######################################################################
 
+
 def ez_read(fd) -> bytes:
-    """ Standard read function.
+    """Standard read function.
 
     :type fd: int
     :param fd: File descriptor.
@@ -37,8 +38,9 @@ def ez_read(fd) -> bytes:
 #                Spawning an writing to process                       #
 #######################################################################
 
+
 def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
-    """ Spawns a process
+    """Spawns a process
     To spawn the process. Heavily inspired from Python's `pty`
     module. `ez_spawn()` should only be used once per file that
     needs to be edited. This function can write a whole text file
@@ -83,10 +85,7 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
     # Encoding the instructions.
     try:
         for item in instructions:
-            all_written.append(ez_write(master_fd,
-                                        item,
-                                        master_read,
-                                        stdin_read))
+            all_written.append(ez_write(master_fd, item, master_read, stdin_read))
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
@@ -140,13 +139,14 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
                 # This should be randomized to simulate typing.
                 os.write(master_fd, data)
                 written.append(data)
-                time.sleep(.1)
+                time.sleep(0.1)
     return written
 
 
 #######################################################################
 #                            YAML parsing                             #
 #######################################################################
+
 
 def yaml_parser(stream) -> list:
     """Loads a YAML file.
@@ -169,9 +169,9 @@ def yaml_parser(stream) -> list:
             if key in available:
                 # Removing None types from dict.
                 if instruction[key] is not None:
-                    instruction[key] = (tools.all_tools[key](value))
+                    instruction[key] = tools.all_tools[key](value)
                 else:
-                    instruction[key] = (tools.all_tools[key]())
+                    instruction[key] = tools.all_tools[key]()
             else:
                 raise NotImplementedError(key + " does not exist.")
 
@@ -183,6 +183,7 @@ def yaml_parser(stream) -> list:
 #######################################################################
 
 # To convert an existing text file to some ezvi commands.
+
 
 def path_check(name):
     """To check if a path to save is valid.
@@ -199,6 +200,7 @@ def path_check(name):
         raise Exception("{} already exists.".format(name))
     else:
         return True
+
 
 def file_parser(stream, name=""):
     """To parse a pre-typed text file.
@@ -228,6 +230,7 @@ def file_parser(stream, name=""):
 
     return to_return
 
+
 def new_conf(stream, savepath):
     """To create a new configuration file.
 
@@ -241,7 +244,7 @@ def new_conf(stream, savepath):
     to_write = []
 
     if path_check(savepath):
-        file = open(savepath, 'w')
+        file = open(savepath, "w")
 
     for line in stream:
         line = line.strip()
