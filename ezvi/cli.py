@@ -10,8 +10,6 @@ from ezvi import funcmodule
 @click.group()
 def app():
     """A tool to automate typing in the Vi editor"""
-    pass
-
 
 @click.command()
 @click.argument(
@@ -38,7 +36,6 @@ def text(infile, writefile):
         writing = funcmodule.file_parser(infile, name=writefile)
 
     funcmodule.ez_spawn(("vi",), writing)
-    return None
 
 
 @click.command()
@@ -84,8 +81,6 @@ def create_config(infile, savepath):
             else:
                 to_echo = "- write_line: " + line
             click.echo(to_echo)
-
-    return None
 
 
 app.add_command(create_config)
