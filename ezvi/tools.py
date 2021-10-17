@@ -42,8 +42,6 @@ def ez_encode_str(to_encode: str) -> list:
 
 
 # Writing
-
-
 def write_chars(to_write) -> list:
     """To type ``to_write`` to the file.
 

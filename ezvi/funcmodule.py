@@ -148,19 +148,20 @@ def ez_write(master_fd, to_write, master_read=ez_read):
 #                            YAML parsing                             #
 #######################################################################
 
+
 def check_ezvi_config(parsed_config: Any):
     """
-    Checks a parsed config file to make sure that it is a valid 
+    Checks a parsed config file to make sure that it is a valid
     ``ezvi`` configuration file.
 
-    :param parsed_config: The parsed configuration file. Can be 
+    :param parsed_config: The parsed configuration file. Can be
     a Python object of any type, but this function will raise an
     error if it's something other than a ``list``.
     :type parsed_config: Any
     :raises TypeError: If ``parsed_config`` is not of type ``list``.
-    :raises TypeError: If an element in ``parsed_config`` is not of 
+    :raises TypeError: If an element in ``parsed_config`` is not of
     type ``dict``.
-    :raises NotImplementedError: If a command used in the configuration 
+    :raises NotImplementedError: If a command used in the configuration
     file is not part of the available commands.
     """
 
@@ -170,7 +171,9 @@ def check_ezvi_config(parsed_config: Any):
     available = [key for key, _ in tools.all_tools.items()]
     for instruction in parsed_config:
         if not isinstance(instruction, dict):
-            raise TypeError("An ezvi configuration file should be parsed as a list of dictionaries.")
+            raise TypeError(
+                "An ezvi configuration file should be parsed as a list of dictionaries."
+            )
         for key, value in instruction.items():
             # If the function is available, run it with "value"
             # as an argument. This translates the text (values)
@@ -183,6 +186,7 @@ def check_ezvi_config(parsed_config: Any):
                     instruction[key] = tools.all_tools[key]()
             else:
                 raise NotImplementedError(key + " does not exist.")
+
 
 def yaml_parser(stream) -> list:
     """Loads a YAML file.

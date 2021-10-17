@@ -11,6 +11,7 @@ from ezvi import funcmodule
 def app():
     """A tool to automate typing in the Vi editor"""
 
+
 @click.command()
 @click.argument(
     "infile",
