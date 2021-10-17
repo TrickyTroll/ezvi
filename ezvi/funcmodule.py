@@ -149,6 +149,20 @@ def ez_write(master_fd, to_write, master_read=ez_read):
 #######################################################################
 
 def check_ezvi_config(parsed_config: Any):
+    """
+    Checks a parsed config file to make sure that it is a valid 
+    ``ezvi`` configuration file.
+
+    :param parsed_config: The parsed configuration file. Can be 
+    a Python object of any type, but this function will raise an
+    error if it's something other than a ``list``.
+    :type parsed_config: Any
+    :raises TypeError: If ``parsed_config`` is not of type ``list``.
+    :raises TypeError: If an element in ``parsed_config`` is not of 
+    type ``dict``.
+    :raises NotImplementedError: If a command used in the configuration 
+    file is not part of the available commands.
+    """
 
     if not isinstance(parsed_config, list):
         raise TypeError("A valid ezvi configuration should be parsed as a list.")
