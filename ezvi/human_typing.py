@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Functions to help with fake typing"""
-import pexpect
+import os
 import time
 import random
 from typing import List, Dict, Union
@@ -204,47 +204,33 @@ def get_delay(previous_letter: str, next_letter: str) -> float:
     return avg_delay
 
 
-def type_typo(child: pexpect.pty_spawn.spawn, next_letter: str, typo: str) -> None:
-    """Sends a typo to the child process and corrects it afterwards.
+def type_typo(file_descriptor: int, next_letter: str, typo: str) -> None:
+    """Sends a typo to the file associated with the file descriptor.
 
     Delays are computed between each keystroke, including when the computer
     presses backspace. For now, only one typo can be introduced at a time.
     More than one would be distracting for the user.
 
-    Args:
-        child (pexpect.pty_spawn.spawn): The child process where the typo
-            will be sent.
-        next_letter (str): The next letter that would be typed if there
-            was no typo. This is the letter that will be typed in the
-            end.
-        typo (str): The letter that will be typed instead of `next_letter`
-            the first time.
     """
-    child.send(typo)
+    os.write(file_descriptor, typo)
     time.sleep(get_delay(typo, "backspace"))
-    child.send("\b")
+    os.write(file_descriptor, "\b")
     time.sleep(get_delay(typo, next_letter))
-    child.send(next_letter)
+    os.write(file_descriptor, next_letter)
 
 
-def type_letters(child: pexpect.pty_spawn.spawn, previous: str, next: str) -> None:
-    """Sends the next letter to the process.
+def type_letter(file_descriptor: int, previous: str, next: str) -> None:
+    """Writes the next letter to the file.
 
     This function also calculates the delay using the previous letter
     and the chances of typing a typo.
 
-    If there is a typo, `type_typo()` is called and sends the wrong letter
-    to the process before correcting it.
+    If there is a typo, `type_typo()` is called and writes a typo
+    to the file before correcting it.
 
     If the next character to type is a space, there are chances that the
     program will take a pause. Indeed, people are more likely to hesitate
     between words than while typing a word.
-
-    Args:
-        child (pexpect.pty_spawn.spawn): The child process to which the next
-            letter will be sent.
-        previous (str): The last letter that has been sent to the process.
-        next (str): The next letter to send to the process.
     """
     typo: Union[str, None] = pick_typo(next)
 
@@ -257,40 +243,6 @@ def type_letters(child: pexpect.pty_spawn.spawn, previous: str, next: str) -> No
         delay: float = get_delay(previous, next)
         time.sleep(delay)
     if typo:
-        type_typo(child, next, typo)
+        type_typo(file_descriptor, next, typo)
     else:
-        child.send(next)
-
-
-def type_sentence(child: pexpect.pty_spawn.spawn, sentence: str) -> None:
-    """Types a full sentence to the child program.
-
-    It uses delays and typos to make typing human like.
-
-    This function ends by sending a newline to the child process.
-
-    Args:
-        child (pexpect.pty_spawn.spawn): The child process to which
-            the sentence will be sent.
-        sentence (str): What will be typed and sent to the process.
-
-    Raises:
-        TypeError: Raises a `TypeError` if the `sentence` argument
-        is not of type `str`. This makes sure that once loaded, the
-        yaml configuration file did not contain other types.
-    """
-    if not isinstance(sentence, str):
-        raise TypeError(f"Cannot type a {type(sentence)}.")
-
-    letters: List[str] = list(sentence)
-
-    if not letters[-1] == "\n":
-        letters.append("\n")
-
-    for index, letter in enumerate(letters):
-        if index > 0:
-            type_letters(child, letters[index - 1], letter)
-        else:
-            # Setting `letter` as previous letter when there
-            # is none.
-            type_letters(child, letter, letter)
+        os.write(file_descriptor, next)
