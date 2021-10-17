@@ -85,7 +85,8 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
     # Encoding the instructions.
     try:
         for item in instructions:
-            all_written.append(ez_write(master_fd, item, master_read, stdin_read))
+            #  This is where each instruction is written.
+            all_written.append(ez_write(master_fd, item, master_read))
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
@@ -147,21 +148,15 @@ def ez_write(master_fd, to_write, master_read=ez_read):
 #                            YAML parsing                             #
 #######################################################################
 
+def check_ezvi_config(parsed_config: Any):
 
-def yaml_parser(stream) -> list:
-    """Loads a YAML file.
+    if not isinstance(parsed_config, list):
+        raise TypeError("A valid ezvi configuration should be parsed as a list.")
 
-    :type stream: textIO
-    :param stream: A stream of text to be parsed.
-
-    :rtype: list
-    :return: The parsed yaml file.
-    """
-
-    available = [key for key, value in tools.all_tools.items()]
-
-    parsed = yaml.safe_load(stream)
-    for instruction in parsed:
+    available = [key for key, _ in tools.all_tools.items()]
+    for instruction in parsed_config:
+        if not isinstance(instruction, dict):
+            raise TypeError("An ezvi configuration file should be parsed as a list of dictionaries.")
         for key, value in instruction.items():
             # If the function is available, run it with "value"
             # as an argument. This translates the text (values)
@@ -174,6 +169,19 @@ def yaml_parser(stream) -> list:
                     instruction[key] = tools.all_tools[key]()
             else:
                 raise NotImplementedError(key + " does not exist.")
+
+def yaml_parser(stream) -> list:
+    """Loads a YAML file.
+
+    :type stream: textIO
+    :param stream: A stream of text to be parsed.
+
+    :rtype: list
+    :return: The parsed yaml file.
+    """
+
+    parsed = yaml.safe_load(stream)
+    check_ezvi_config(parsed)
 
     return parsed
 
