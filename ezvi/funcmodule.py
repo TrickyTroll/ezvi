@@ -1,3 +1,7 @@
+"""
+``funcmodule.py`` contains functions that are used to spawn and interact
+with a ``vi`` process.
+"""
 import os
 import pty
 import time
@@ -17,8 +21,9 @@ CHILD = 0
 #                         Read function                               #
 #######################################################################
 
+
 def ez_read(fd) -> bytes:
-    """ Standard read function.
+    """Standard read function.
 
     :type fd: int
     :param fd: File descriptor.
@@ -33,8 +38,9 @@ def ez_read(fd) -> bytes:
 #                Spawning an writing to process                       #
 #######################################################################
 
+
 def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
-    """ Spawns a process
+    """Spawns a process
     To spawn the process. Heavily inspired from Python's `pty`
     module. `ez_spawn()` should only be used once per file that
     needs to be edited. This function can write a whole text file
@@ -79,10 +85,8 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
     # Encoding the instructions.
     try:
         for item in instructions:
-            all_written.append(ez_write(master_fd,
-                                        item,
-                                        master_read,
-                                        stdin_read))
+            #  This is where each instruction is written.
+            all_written.append(ez_write(master_fd, item, master_read))
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
@@ -94,7 +98,7 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
     return os.waitpid(pid, 0)[1]
 
 
-def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
+def ez_write(master_fd, to_write, master_read=ez_read):
     """Writes every char in `to_write` to `master_fd`.
 
     :type master_fd: int
@@ -115,7 +119,7 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
     written = []
     fds = [master_fd, STDIN_FILENO]
     while True:
-        rfds, wfds, xfds = select([fds[0]], [fds[1]], [])
+        rfds, wfds, _ = select([fds[0]], [fds[1]], [])
         if master_fd in rfds:
             # This is required to see the program running.
             data = master_read(master_fd)
@@ -136,7 +140,7 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
                 # This should be randomized to simulate typing.
                 os.write(master_fd, data)
                 written.append(data)
-                time.sleep(.1)
+                time.sleep(0.1)
     return written
 
 
@@ -144,8 +148,48 @@ def ez_write(master_fd, to_write, master_read=ez_read, stdin_read=ez_read):
 #                            YAML parsing                             #
 #######################################################################
 
+
+def check_ezvi_config(parsed_config: Any):
+    """
+    Checks a parsed config file to make sure that it is a valid
+    ``ezvi`` configuration file.
+
+    :param parsed_config: The parsed configuration file. Can be
+    a Python object of any type, but this function will raise an
+    error if it's something other than a ``list``.
+    :type parsed_config: Any
+    :raises TypeError: If ``parsed_config`` is not of type ``list``.
+    :raises TypeError: If an element in ``parsed_config`` is not of
+    type ``dict``.
+    :raises NotImplementedError: If a command used in the configuration
+    file is not part of the available commands.
+    """
+
+    if not isinstance(parsed_config, list):
+        raise TypeError("A valid ezvi configuration should be parsed as a list.")
+
+    available = [key for key, _ in tools.all_tools.items()]
+    for instruction in parsed_config:
+        if not isinstance(instruction, dict):
+            raise TypeError(
+                "An ezvi configuration file should be parsed as a list of dictionaries."
+            )
+        for key, value in instruction.items():
+            # If the function is available, run it with "value"
+            # as an argument. This translates the text (values)
+            # according to the instructions (values).
+            if key in available:
+                # Removing None types from dict.
+                if instruction[key] is not None:
+                    instruction[key] = tools.all_tools[key](value)
+                else:
+                    instruction[key] = tools.all_tools[key]()
+            else:
+                raise NotImplementedError(key + " does not exist.")
+
+
 def yaml_parser(stream) -> list:
-    """Loads a YAML file. 
+    """Loads a YAML file.
 
     :type stream: textIO
     :param stream: A stream of text to be parsed.
@@ -154,22 +198,8 @@ def yaml_parser(stream) -> list:
     :return: The parsed yaml file.
     """
 
-    available = [key for key, value in tools.all_tools.items()]
-
     parsed = yaml.safe_load(stream)
-    for instruction in parsed:
-        for key, value in instruction.items():
-            # If the function is available, run it with "value"
-            # as an argument. This translates the text (values)
-            # according to the instructions (values).
-            if key in available:
-                # Removing None types from dict.
-                if instruction[key] is not None:
-                    instruction[key] = (tools.all_tools[key](value))
-                else:
-                    instruction[key] = (tools.all_tools[key]())
-            else:
-                raise NotImplementedError(key + " does not exist.")
+    check_ezvi_config(parsed)
 
     return parsed
 
@@ -179,6 +209,7 @@ def yaml_parser(stream) -> list:
 #######################################################################
 
 # To convert an existing text file to some ezvi commands.
+
 
 def path_check(name):
     """To check if a path to save is valid.
@@ -195,6 +226,7 @@ def path_check(name):
         raise Exception("{} already exists.".format(name))
     else:
         return True
+
 
 def file_parser(stream, name=""):
     """To parse a pre-typed text file.
@@ -224,6 +256,7 @@ def file_parser(stream, name=""):
 
     return to_return
 
+
 def new_conf(stream, savepath):
     """To create a new configuration file.
 
@@ -237,7 +270,7 @@ def new_conf(stream, savepath):
     to_write = []
 
     if path_check(savepath):
-        file = open(savepath, 'w')
+        file = open(savepath, "w")
 
     for line in stream:
         line = line.strip()

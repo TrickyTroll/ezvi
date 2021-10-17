@@ -82,10 +82,10 @@ to edit by someone who wants to quickly fix their automation.
 Footnotes
 ---------
 
-.. [#] In fact, YAML is so easy to read that its web 
-  `page <https://yaml.org>`_ can follow the language's syntax and still be
-  easy to read.
-
 .. [#] For example, the ``write_line`` command takes the line to write as
   an argument. For more information on what commands are available and their
   inputs, see the :doc:`actions <actions>` section.
+
+.. [#] In fact, YAML is so easy to read that its web 
+  `page <https://yaml.org>`_ can follow the language's syntax and still be
+  easy to read.

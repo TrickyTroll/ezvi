@@ -1,9 +1,21 @@
+"""
+``tools.py`` contains functions used in the funcmodule to interact with
+the ``vi`` editor. Most functions can be mapped to existing ``vi``
+commands.
+
+This module is also where the API is documented. Each funcion's docstring
+contains documentation on how to use the function with the API and with
+the command line interface.
+"""
+from typing import List, Dict, Callable, Any
+
 #######################################################################
 #                       Character Encoding                            #
 #######################################################################
 
+
 def ez_encode_str(to_encode: str) -> list:
-    """ Encodes a `str` per character and puts them into a list.
+    """Encodes a `str` per character and puts them into a list.
 
     :type to_encode: str
     :param to_encode: The string that has to be encoded.
@@ -11,9 +23,9 @@ def ez_encode_str(to_encode: str) -> list:
     :rtype: list
     :return: A list of encoded chars. Encodes in UTF-8
     """
-    to_return = []
+    to_return: List[bytes] = []
     for char in list(to_encode):
-        if type(char) != bytes:
+        if not isinstance(char, bytes):
             try:
                 to_return.append(char.encode("utf-8"))
             except AttributeError:
@@ -30,12 +42,11 @@ def ez_encode_str(to_encode: str) -> list:
 
 
 # Writing
-
 def write_chars(to_write) -> list:
     """To type ``to_write`` to the file.
 
-    ``write_chars`` will type the passed string after the cursor position. 
-    From Vi’s command mode, it types ``a`` to insert after and then types the 
+    ``write_chars`` will type the passed string after the cursor position.
+    From Vi’s command mode, it types ``a`` to insert after and then types the
     string.
 
     Usage:
@@ -70,7 +81,7 @@ def write_line(to_write):
 
     Starts typing after the current cursor position by pressing
     ``a`` from the command mode. ``to_write`` is then typed and
-    a new line is created. 
+    a new line is created.
 
     Usage:
 
@@ -102,9 +113,9 @@ def write_line(to_write):
 def new_line(amount=1):
     """Creates an ``amount`` of new lines.
 
-    ``new_line`` inserts a certain number of new lines to the file. 
-    From Vi’s command mode, ``ezvi`` first presses ``o``. This ensures 
-    that the current line won’t be split even if the cursor is not 
+    ``new_line`` inserts a certain number of new lines to the file.
+    From Vi’s command mode, ``ezvi`` first presses ``o``. This ensures
+    that the current line won’t be split even if the cursor is not
     at the end of the line.
 
     Usage:
@@ -134,7 +145,7 @@ def new_line(amount=1):
         except TypeError:
             amount = 1
 
-    to_write = "o" + "\n" * (amount-1) + chr(27)
+    to_write = "o" + "\n" * (amount - 1) + chr(27)
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -212,7 +223,7 @@ def write_after_word(to_write):
 def write_after_line(to_write):
     """To write ``to_write`` after the current line.
 
-    This function uses ``$`` from the command mode to go to the 
+    This function uses ``$`` from the command mode to go to the
     end of the line. ``to_write`` is then written after the cursor
     position using the ``a`` command. **This function does not add a
     space to the beginning of ``to_write``.**
@@ -250,7 +261,7 @@ def write_after_char(to_write):
     """To write ``to_write`` after the cursor's position (current char).
 
     ``to_write`` is written after the cursor
-    position using the ``a`` command. 
+    position using the ``a`` command.
 
     Usage:
 
@@ -286,7 +297,7 @@ def write_before_word(to_write):
 
     ``write_before_word`` uses ``b`` from the command mode to move
     the cursor to the beginning of the current word. ``to_write`` is
-    then written before the cursor's position using the ``i`` 
+    then written before the cursor's position using the ``i``
     command.
 
     Usage:
@@ -323,7 +334,7 @@ def write_before_line(to_write):
 
     ``write_before_line`` uses ``0`` from the command mode to move
     the cursor to the beginning of the current line. ``to_write`` is
-    then written before the cursor's position using the ``i`` 
+    then written before the cursor's position using the ``i``
     command.
 
     Usage:
@@ -360,7 +371,7 @@ def write_before_char(to_write):
 
     ``write_before_line`` uses ``0`` from the command mode to move
     the cursor to the beginning of the current line. ``to_write`` is
-    then written before the cursor's position using the ``i`` 
+    then written before the cursor's position using the ``i``
     command.
 
     Usage:
@@ -393,6 +404,7 @@ def write_before_char(to_write):
 
 
 # Movement
+
 
 def goto_line(line_num):
     """To go to a certain line.
@@ -463,12 +475,13 @@ def goto_column(column_num):
 
 # Replace functions
 
+
 def replace(start, end, new):
     """Replaces text on the current line.
 
     This function replaces from the column number ``start`` to the
     column number ``end`` with the ``new`` text. ``replace`` moves
-    the cursor to the starting position and then uses the change 
+    the cursor to the starting position and then uses the change
     command (``c``) to replace the text.
 
     Usage:
@@ -515,8 +528,8 @@ def find_replace(old, new):
 def replace_line(new):
     """Replaces text on the current line.
 
-    ``replace`` moves the cursor to the beginning of the line 
-    using ``0`` from the command mode and then uses command 
+    ``replace`` moves the cursor to the beginning of the line
+    using ``0`` from the command mode and then uses command
     (``c$``) to replace the whole line.
 
     Usage:
@@ -549,6 +562,7 @@ def replace_line(new):
 
 
 # Vi commands
+
 
 def write_file(filename):
     """Write the current buffer.
@@ -638,10 +652,6 @@ def force_quit_editor():
     :rtype: list
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
-    """To force quit the editor.
-
-    :rtype: list
-    """
 
     to_write = ":q!" + "\n"
     to_write = ez_encode_str(to_write)
@@ -649,7 +659,8 @@ def force_quit_editor():
     return to_write
 
 
-all_tools = {
+# TODO: Replace ``Any`` with something more accurate.
+all_tools: Dict[Any, Callable] = {
     write_chars.__name__: write_chars,
     write_line.__name__: write_line,
     new_line.__name__: new_line,
