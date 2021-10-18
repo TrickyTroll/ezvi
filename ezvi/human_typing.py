@@ -180,7 +180,7 @@ def pick_typo(next_letter: str) -> Union[str, None]:
     return typo
 
 
-def get_delay(previous_letter: str, next_letter: str) -> float:
+def get_delay(previous_letter: str, next_letter: str, multiplier: float = 1)  -> float:
     """Function to get the delay before the next letter is typed.
 
     This function uses the fact that letters typed by two different
@@ -193,6 +193,8 @@ def get_delay(previous_letter: str, next_letter: str) -> float:
     Args:
         previous_letter (str): The previously typed letter.
         next_letter (str): The next letter to type.
+        multiplier (int): Typing speed multiplier. The delay is divided
+        by the multiplier. Defaults to 1.
 
     Returns:
         float: The time **in seconds** before the next keystroke.
@@ -204,7 +206,7 @@ def get_delay(previous_letter: str, next_letter: str) -> float:
         # Two letters typed by different hands are 30-60ms faster.
         faster_by = random.randint(30, 60) / 1000
         avg_delay -= faster_by
-    return avg_delay
+    return avg_delay / multiplier
 
 
 def type_typo(file_descriptor: int, next_letter: str, typo: str) -> None:
