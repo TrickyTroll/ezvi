@@ -11,6 +11,7 @@ from ezvi import tools
 import yaml
 import tty
 from select import select
+from ezvi import human_typing
 
 STDIN_FILENO = 0
 STDOUT_FILENO = 1
@@ -82,7 +83,6 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
         # Did not work, no need to restore.
         restore = 0
     # This is where the fun begins.
-    # Encoding the instructions.
     try:
         for item in instructions:
             #  This is where each instruction is written.
@@ -131,14 +131,14 @@ def ez_write(master_fd, to_write, master_read=ez_read):
         # This should always be true.
         if STDIN_FILENO in wfds:
             try:
-                data = to_write.pop(0)  # The item should already be encoded.
+                data = to_write.pop(0)
             except IndexError:
                 data = None
             if not data:
                 break
             else:
                 # This should be randomized to simulate typing.
-                os.write(master_fd, data)
+                human_typing.type_letter(master_fd, written[-1], data)
                 written.append(data)
                 time.sleep(0.1)
     return written
