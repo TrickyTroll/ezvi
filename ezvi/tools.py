@@ -9,6 +9,8 @@ the command line interface.
 """
 from typing import List, Dict, Callable, Any
 
+ESCAPE: str = chr(27)
+
 #######################################################################
 #                       Character Encoding                            #
 #######################################################################
@@ -70,7 +72,7 @@ def write_chars(to_write) -> list:
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
-    to_write = "a" + to_write + chr(27)
+    to_write = "a" + to_write + ESCAPE
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -104,7 +106,7 @@ def write_line(to_write):
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
-    to_write = "a" + to_write + "\n" + chr(27)
+    to_write = "a" + to_write + "\n" + ESCAPE
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -145,7 +147,7 @@ def new_line(amount=1):
         except TypeError:
             amount = 1
 
-    to_write = "o" + "\n" * (amount - 1) + chr(27)
+    to_write = "o" + "\n" * (amount - 1) + ESCAPE
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -177,7 +179,7 @@ def new_line_over():
     :return: A list of encoded characters that can be directly interpreted by ``Vi``.
     """
 
-    to_write = "O" + chr(27)
+    to_write = "O" + ESCAPE
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -213,7 +215,7 @@ def write_after_word(to_write):
     """
 
     prepend = "e" + "a"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
@@ -250,7 +252,7 @@ def write_after_line(to_write):
     """
 
     prepend = "$" + "a"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
@@ -285,7 +287,7 @@ def write_after_char(to_write):
     """
 
     prepend = "a"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
@@ -322,7 +324,7 @@ def write_before_word(to_write):
     """
 
     prepend = "b" + "i"  # TODO: Replace "b" by something that works.
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
@@ -359,7 +361,7 @@ def write_before_line(to_write):
     """
 
     prepend = "0" + "i"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
@@ -396,7 +398,7 @@ def write_before_char(to_write):
     """
 
     prepend = "i"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
     to_write = ez_encode_str(to_write)
 
@@ -513,7 +515,7 @@ def replace(start, end, new):
 
     movement = goto_column(start)
     replace = "c" + str(end - start)
-    to_write = movement + replace + new + chr(27)
+    to_write = movement + replace + new + ESCAPE
     to_write = ez_encode_str(to_write)
 
     return to_write
@@ -555,7 +557,7 @@ def replace_line(new):
 
     movement = "0"
     replace = "c" + "$"
-    to_write = movement + replace + new + chr(27)
+    to_write = movement + replace + new + ESCAPE
     to_write = ez_encode_str(to_write)
 
     return to_write
