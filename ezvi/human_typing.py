@@ -4,6 +4,7 @@ import os
 import time
 import random
 from typing import List, Dict, Union
+from ezvi import tools
 
 LEFT_HAND: List[str] = [
     "as",
@@ -88,6 +89,8 @@ PLAUSIBLE_TYPOS: Dict[str, List[str]] = {  # In keyboard order.
     "n": ["b", "m", "h"],
     "m": ["n", "j", "k", ","],
 }
+
+ENCODED_BACKSPACE: List[bytes] = tools.ez_encode_str("\b")
 
 
 def is_typo() -> bool:
@@ -212,11 +215,13 @@ def type_typo(file_descriptor: int, next_letter: str, typo: str) -> None:
     More than one would be distracting for the user.
 
     """
-    os.write(file_descriptor, typo)
+    encoded_typo: List[bytes] = tools.ez_encode_str(typo)
+    encoded_next_letter: List[bytes] = tools.ez_encode_str(next_letter)
+    os.write(file_descriptor, encoded_typo)
     time.sleep(get_delay(typo, "backspace"))
-    os.write(file_descriptor, "\b")
-    time.sleep(get_delay(typo, next_letter))
-    os.write(file_descriptor, next_letter)
+    os.write(file_descriptor, ENCODED_BACKSPACE)
+    time.sleep(get_delay(typo, encoded_next_letter))
+    os.write(file_descriptor, encoded_next_letter)
 
 
 def type_letter(file_descriptor: int, previous: str, next: str) -> None:
