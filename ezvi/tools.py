@@ -73,7 +73,6 @@ def write_chars(to_write) -> list:
     """
 
     to_write = "a" + to_write + ESCAPE
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -107,7 +106,6 @@ def write_line(to_write):
     """
 
     to_write = "a" + to_write + "\n" + ESCAPE
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -148,7 +146,6 @@ def new_line(amount=1):
             amount = 1
 
     to_write = "o" + "\n" * (amount - 1) + ESCAPE
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -180,7 +177,6 @@ def new_line_over():
     """
 
     to_write = "O" + ESCAPE
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -217,7 +213,6 @@ def write_after_word(to_write):
     prepend = "e" + "a"
     append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -254,7 +249,6 @@ def write_after_line(to_write):
     prepend = "$" + "a"
     append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -289,7 +283,6 @@ def write_after_char(to_write):
     prepend = "a"
     append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -326,7 +319,6 @@ def write_before_word(to_write):
     prepend = "b" + "i"  # TODO: Replace "b" by something that works.
     append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -363,7 +355,6 @@ def write_before_line(to_write):
     prepend = "0" + "i"
     append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -400,7 +391,6 @@ def write_before_char(to_write):
     prepend = "i"
     append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -436,7 +426,6 @@ def goto_line(line_num):
     """
 
     to_write = str(line_num) + "G"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -470,7 +459,6 @@ def goto_column(column_num):
 
     # This would be much cleaner if I could get the cursor's position.
     to_write = "0" + str(column_num - 1) + "l"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -516,7 +504,6 @@ def replace(start, end, new):
     movement = goto_column(start)
     replace = "c" + str(end - start)
     to_write = movement + replace + new + ESCAPE
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -558,7 +545,6 @@ def replace_line(new):
     movement = "0"
     replace = "c" + "$"
     to_write = movement + replace + new + ESCAPE
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -594,7 +580,6 @@ def write_file(filename):
     """
 
     to_write = ":w " + filename + "\n"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -626,7 +611,6 @@ def quit_editor():
     """
 
     to_write = ":q" + "\n"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -656,7 +640,6 @@ def force_quit_editor():
     """
 
     to_write = ":q!" + "\n"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
