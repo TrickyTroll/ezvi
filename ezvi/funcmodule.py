@@ -131,16 +131,18 @@ def ez_write(master_fd, to_write, master_read=ez_read):
         # This should always be true.
         if STDIN_FILENO in wfds:
             try:
-                data = to_write.pop(0)
+                next_char: str = to_write.pop(0)
             except IndexError:
-                data = None
-            if not data:
+                next_char = ""
+            if not next_char:
                 break
             else:
                 # This should be randomized to simulate typing.
-                human_typing.type_letter(master_fd, written[-1], data)
-                written.append(data)
-                time.sleep(0.1)
+                if written: # There is a previous letter.
+                    human_typing.type_letter(master_fd, written[-1], next_char)
+                else: # This is the first letter to be typed.
+                    human_typing.type_letter(master_fd, next_char, next_char)
+                written.append(next_char)
     return written
 
 
