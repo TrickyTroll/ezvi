@@ -215,13 +215,11 @@ def type_typo(file_descriptor: int, next_letter: str, typo: str) -> None:
     More than one would be distracting for the user.
 
     """
-    encoded_typo: List[bytes] = tools.ez_encode_str(typo)
-    encoded_next_letter: List[bytes] = tools.ez_encode_str(next_letter)
-    os.write(file_descriptor, encoded_typo)
+    os.write(file_descriptor, typo.encode("utf-8"))
     time.sleep(get_delay(typo, "backspace"))
-    os.write(file_descriptor, ENCODED_BACKSPACE)
-    time.sleep(get_delay(typo, encoded_next_letter))
-    os.write(file_descriptor, encoded_next_letter)
+    os.write(file_descriptor, "\b".encode("utf-8"))
+    time.sleep(get_delay(typo, next_letter))
+    os.write(file_descriptor, next_letter.encode("utf-8"))
 
 
 def type_letter(file_descriptor: int, previous: str, next: str) -> None:
@@ -250,4 +248,4 @@ def type_letter(file_descriptor: int, previous: str, next: str) -> None:
     if typo:
         type_typo(file_descriptor, next, typo)
     else:
-        os.write(file_descriptor, next)
+        os.write(file_descriptor, next.encode("utf-8"))
