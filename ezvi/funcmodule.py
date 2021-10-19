@@ -87,6 +87,7 @@ def ez_spawn(argv, instructions, master_read=ez_read, stdin_read=ez_read):
         for item in instructions:
             #  This is where each instruction is written.
             all_written.append(ez_write(master_fd, list(item), master_read))
+        time.sleep(.5)
     except OSError:
         if restore:
             # Discard queued data and change mode to original.
