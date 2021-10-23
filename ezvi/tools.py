@@ -9,6 +9,8 @@ the command line interface.
 """
 from typing import List, Dict, Callable, Any
 
+ESCAPE: str = chr(27)
+
 #######################################################################
 #                       Character Encoding                            #
 #######################################################################
@@ -42,7 +44,7 @@ def ez_encode_str(to_encode: str) -> list:
 
 
 # Writing
-def write_chars(to_write) -> list:
+def write_chars(to_write: str) -> list:
     """To type ``to_write`` to the file.
 
     ``write_chars`` will type the passed string after the cursor position.
@@ -66,17 +68,17 @@ def write_chars(to_write) -> list:
     :type to_write: str
     :param to_write: The characters to write.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: A string that corresponds to the keys that would be
+    pressed to insert text after the current cursor position.
     """
 
-    to_write = "a" + to_write + chr(27)
-    to_write = ez_encode_str(to_write)
+    to_write = "a" + to_write + ESCAPE
 
     return to_write
 
 
-def write_line(to_write):
+def write_line(to_write: str) -> str:
     """To type `to_write` and create a new line.
 
     Starts typing after the current cursor position by pressing
@@ -100,12 +102,12 @@ def write_line(to_write):
     :type to_write: str
     :param to_write: The characters to write.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: A string that contains the keystrokes that would be used
+    to write a whole line in ``Vi``.
     """
 
-    to_write = "a" + to_write + "\n" + chr(27)
-    to_write = ez_encode_str(to_write)
+    to_write = "a" + to_write + "\n" + ESCAPE
 
     return to_write
 
@@ -136,17 +138,18 @@ def new_line(amount=1):
     :type amount: int
     :param amount: The number of new lines to create.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: A string that contains the characters that would be used
+    to create a certain amount of new lines in ``Vi``.
     """
+    # TODO: use ``isinstance``
     if type(amount) != int:
         try:
             amount = int(amount)
         except TypeError:
             amount = 1
 
-    to_write = "o" + "\n" * (amount - 1) + chr(27)
-    to_write = ez_encode_str(to_write)
+    to_write = "o" + "\n" * (amount - 1) + ESCAPE
 
     return to_write
 
@@ -173,12 +176,12 @@ def new_line_over():
 
       ezvi.tools.new_line_over()
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Characters that would be used in ``Vi`` to add a new line
+    over the cursor.
     """
 
-    to_write = "O" + chr(27)
-    to_write = ez_encode_str(to_write)
+    to_write = "O" + ESCAPE
 
     return to_write
 
@@ -208,14 +211,14 @@ def write_after_word(to_write):
     :type to_write: str
     :param to_write: What to write after the word.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Characters that would be used to type contents after the
+    current word.
     """
 
     prepend = "e" + "a"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -245,14 +248,13 @@ def write_after_line(to_write):
     :type to_write: str
     :param to_write: What to write after the line.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Characters that would be used to append content to a line.
     """
 
     prepend = "$" + "a"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -280,14 +282,14 @@ def write_after_char(to_write):
     :type to_write: str
     :param to_write: What to write after the cursor.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Characters that would be used to add contents after the 
+    current cursor position.
     """
 
     prepend = "a"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -317,14 +319,13 @@ def write_before_word(to_write):
     :type to_write: str
     :param to_write: What to write before the current word.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Keystrokes that can be used to prepend a word with new contents.
     """
 
     prepend = "b" + "i"  # TODO: Replace "b" by something that works.
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -354,14 +355,13 @@ def write_before_line(to_write):
     :type to_write: str
     :param to_write: What to write before the current line.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Characters that can be used to prepend content to a line.
     """
 
     prepend = "0" + "i"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -391,14 +391,14 @@ def write_before_char(to_write):
     :type to_write: str
     :param to_write: What to write before the current line.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Keystrokes that can be used to add content before the
+    current cursor position.
     """
 
     prepend = "i"
-    append = chr(27)
+    append = ESCAPE
     to_write = prepend + to_write + append
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -429,12 +429,11 @@ def goto_line(line_num):
     :type line_num: int
     :param line_num: The number of the line to move the cursor to.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: A line number appended with ``G``.
     """
 
     to_write = str(line_num) + "G"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -462,13 +461,12 @@ def goto_column(column_num):
     :type column_num: int
     :param column_num: The number of the column to move the cursor to.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: ``0`` plus a column position appended with ``l``.
     """
 
     # This would be much cleaner if I could get the cursor's position.
     to_write = "0" + str(column_num - 1) + "l"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -507,21 +505,20 @@ def replace(start, end, new):
     :type new: str
     :param new: The new text to type.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Keystrokes that can be used to replace text from start to end.
     """
 
     movement = goto_column(start)
     replace = "c" + str(end - start)
-    to_write = movement + replace + new + chr(27)
-    to_write = ez_encode_str(to_write)
+    to_write = movement + replace + new + ESCAPE
 
     return to_write
 
 
 def find_replace(old, new):
     """To find `old` on the current line and replaces it with `new`."""
-
+    raise NotImplementedError
     pass
 
 
@@ -549,14 +546,14 @@ def replace_line(new):
     :type new: str
     :param new: The new text to replace the current line.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: Characters that can be typeed to change the current line
+    with new content.
     """
 
     movement = "0"
     replace = "c" + "$"
-    to_write = movement + replace + new + chr(27)
-    to_write = ez_encode_str(to_write)
+    to_write = movement + replace + new + ESCAPE
 
     return to_write
 
@@ -587,12 +584,11 @@ def write_file(filename):
     :type filename: str
     :param filename: The path towards where to save the current buffer.
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: ``:w`` plus a file name and a newline.
     """
 
     to_write = ":w " + filename + "\n"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -619,12 +615,11 @@ def quit_editor():
 
       ezvi.tools.quit_editor()
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: ``:q`` and a newline.
     """
 
     to_write = ":q" + "\n"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
@@ -649,12 +644,11 @@ def force_quit_editor():
 
       ezvi.tools.force_quit_editor()
 
-    :rtype: list
-    :return: A list of encoded characters that can be directly interpreted by ``Vi``.
+    :rtype: str
+    :return: ``:q!`` and a newline character.
     """
 
     to_write = ":q!" + "\n"
-    to_write = ez_encode_str(to_write)
 
     return to_write
 
